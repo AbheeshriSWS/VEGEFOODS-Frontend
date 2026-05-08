@@ -20,6 +20,7 @@ function App() {
             <Route path="/wishlist" element={<Wish />} ></Route>
             <Route path="/product-single" element={<Single />} ></Route>
             <Route path="/blog" element={<Blog />} ></Route>
+            <Route path="/contact" element={<Contact />} ></Route>
             <Route path="/cart" element={<Cart />} ></Route>
             <Route path="/checkout" element={<Checkout />} ></Route>
         </Routes>

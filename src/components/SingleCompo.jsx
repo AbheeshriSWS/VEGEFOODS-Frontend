@@ -1,16 +1,56 @@
 import product from "../assets/images/product.jpeg";
+import bg from "../assets/images/bg_1.jpg";
+
 import { useState } from "react";
 
 function SingleCompo(){
     const [quantity, setQuantity] = useState(1);
+
+	const images = [bg, product, bg, product];
+	const [activeImage, setActiveImage] = useState(bg);
     return(
         <>
             <section className="ftco-section">
     	<div className="container">
     		<div className="row">
     			<div className="col-lg-6 mb-5 ftco-animate">
-    				<a href="images/product-1.jpg" className="image-popup"><img src={product} className="img-fluid" alt="Colorlib Template" /></a>
-    			</div>
+
+    {/* Main Image */}
+    <div className="mb-3">
+        <img
+            src={activeImage}
+            className="img-fluid rounded"
+            alt="Product"
+        />
+    </div>
+
+    {/* Thumbnail Images */}
+    <div className="d-flex gap-3 flex-wrap">
+
+        {images.map((img, index) => (
+            <img
+                key={index}
+                src={img}
+                alt="thumbnail"
+                onClick={() => setActiveImage(img)}
+                style={{
+                    width: "90px",
+                    height: "90px",
+                    objectFit: "cover",
+                    cursor: "pointer",
+                    border:
+                        activeImage === img
+                            ? "2px solid green"
+                            : "2px solid #ddd",
+                    padding: "3px",
+                    borderRadius: "8px"
+                }}
+            />
+        ))}
+
+    </div>
+
+</div>
     			<div className="col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3>Bell Pepper</h3>
     				<div className="rating d-flex">
