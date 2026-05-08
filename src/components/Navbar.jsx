@@ -15,17 +15,17 @@ function Navbar(){
                 <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="/about" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</Link>
                 <div className="dropdown-menu" aria-labelledby="dropdown04">
-                    <a className="dropdown-item" href="shop.html">Shop</a>
-                    <a className="dropdown-item" href="wishlist.html">Wishlist</a>
-                    <a className="dropdown-item" href="product-single.html">Single Product</a>
-                    <a className="dropdown-item" href="cart.html">Cart</a>
-                    <a className="dropdown-item" href="checkout.html">Checkout</a>
+                    <Link className="dropdown-item" to="/shop">Shop</Link>
+                    <Link className="dropdown-item" to="/wishlist">Wishlist</Link>
+                    <Link className="dropdown-item" to="/product-single">Single Product</Link>
+                    <Link className="dropdown-item" to="/cart">Cart</Link>
+                    <Link className="dropdown-item" to="/checkout">Checkout</Link>
                 </div>
                 </li>
                 <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
-                <li className="nav-item"><a href="blog.html" className="nav-link">Blog</a></li>
-                <li className="nav-item"><a href="contact.html" className="nav-link">Contact</a></li>
-                <li className="nav-item cta cta-colored"><a href="cart.html" className="nav-link"><span className="icon-shopping_cart"></span>[0]</a></li>
+                <li className="nav-item"><Link to="/blog" className="nav-link">Blog</Link></li>
+                <li className="nav-item"><Link to="/contact" className="nav-link">Contact</Link></li>
+                <li className="nav-item cta cta-colored"><Link to="/cart" className="nav-link"><span className="icon-shopping_cart"></span>[0]</Link></li>
 
                 </ul>
             </div>
