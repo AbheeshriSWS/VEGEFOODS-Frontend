@@ -1,4 +1,5 @@
 import product from "../assets/images/product.jpeg";
+import { Link } from "react-router-dom"
 
 function Welcome(){
     return(
@@ -20,7 +21,7 @@ function Welcome(){
 	          <div className="pb-md-5">
 	          	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
 							<p>But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
-							<p><a href="javascript:void(0)" className="btn btn-primary">Shop now</a></p>
+							<p><Link to="/shop" className="btn btn-primary">Shop now</Link></p>
 						</div>
 					</div>
 				</div>
