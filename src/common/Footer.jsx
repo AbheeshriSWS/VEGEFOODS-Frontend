@@ -40,8 +40,8 @@ function Footer() {
                 <ul className="list-unstyled">
                   <li><Link to="/shop" className="py-2 d-block">Shop</Link></li>
                   <li><Link to="/about" className="py-2 d-block">About</Link></li>
-                  <li><a href="#" className="py-2 d-block">Journal</a></li>
                   <li><Link to="/contact" className="py-2 d-block">Contact Us</Link></li>
+                  <li><a href="#" className="py-2 d-block">FAQs</a></li>
                 </ul>
               </div>
             </div>
@@ -55,10 +55,10 @@ function Footer() {
                     <li><a href="#" className="py-2 d-block">Terms &amp; Conditions</a></li>
                     <li><a href="#" className="py-2 d-block">Privacy Policy</a></li>
                   </ul>
-                  <ul className="list-unstyled">
+                  {/* <ul className="list-unstyled">
                     <li><a href="#" className="py-2 d-block">FAQs</a></li>
                     <li><a href="#" className="py-2 d-block">Contact</a></li>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>

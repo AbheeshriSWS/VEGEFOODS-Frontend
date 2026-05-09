@@ -22,7 +22,7 @@ function CartMain() {
 									</thead>
 									<tbody>
 										<tr className="text-center">
-											<td className="product-remove"><a href="#"><span className="ion-ios-close"></span></a></td>
+											<td className="product-remove"><a href="javascript:void(0)"><span className="ion-ios-close"></span></a></td>
 
 											<td className="image-prod"><div className="img" style={{ backgroundImage: `url(${product})` }}></div></td>
 
@@ -43,7 +43,7 @@ function CartMain() {
 										</tr>
 
 										<tr className="text-center">
-											<td className="product-remove"><a href="#"><span className="ion-ios-close"></span></a></td>
+											<td className="product-remove"><a href="javascript:void(0)"><span className="ion-ios-close"></span></a></td>
 
 											<td className="image-prod"><div className="img" style={{ backgroundImage: `url(${product})` }}></div></td>
 
@@ -72,20 +72,20 @@ function CartMain() {
 							<div className="cart-total mb-3">
 								<h3>Coupon Code</h3>
 								<p>Enter your coupon code if you have one</p>
-								<form action="#" className="info">
+								<form action="javascript:void(0)" className="info">
 									<div className="form-group">
 										<label htmlFor="">Coupon code</label>
 										<input type="text" className="form-control text-left px-3" placeholder="" />
 									</div>
 								</form>
 							</div>
-							<p><a href="checkout.html" className="btn btn-primary py-3 px-4">Apply Coupon</a></p>
+							<p><a href="javascript:void(0)" className="btn btn-primary py-3 px-4">Apply Coupon</a></p>
 						</div>
 						<div className="col-lg-4 mt-5 cart-wrap ftco-animate">
 							<div className="cart-total mb-3">
 								<h3>Estimate shipping and tax</h3>
 								<p>Enter your destination to get a shipping estimate</p>
-								<form action="#" className="info">
+								<form action="javascript:void(0)" className="info">
 									<div className="form-group">
 										<label htmlFor="">Country</label>
 										<input type="text" className="form-control text-left px-3" placeholder="" />
@@ -100,7 +100,7 @@ function CartMain() {
 									</div>
 								</form>
 							</div>
-							<p><a href="checkout.html" className="btn btn-primary py-3 px-4">Estimate</a></p>
+							<p><a href="javascript:void(0)" className="btn btn-primary py-3 px-4">Estimate</a></p>
 						</div>
 						<div className="col-lg-4 mt-5 cart-wrap ftco-animate">
 							<div className="cart-total mb-3">
@@ -129,7 +129,7 @@ function CartMain() {
 				</div>
 			</section>
 
-			
+
 		</>
 	);
 }

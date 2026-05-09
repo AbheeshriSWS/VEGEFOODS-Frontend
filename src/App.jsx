@@ -10,6 +10,8 @@ import BlogSingle from "./pages/BlogSingle";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/contact" element={<Contact />} ></Route>
             <Route path="/cart" element={<Cart />} ></Route>
             <Route path="/checkout" element={<Checkout />} ></Route>
+            <Route path="/signin" element={<SignIn />} ></Route>
+            <Route path="/signup" element={<SignUp />} ></Route>
         </Routes>
     </>
   );
