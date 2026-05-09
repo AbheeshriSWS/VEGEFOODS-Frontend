@@ -1,5 +1,6 @@
 import product from "../assets/images/product.jpeg";
 import { useState } from "react";
+import { Link } from "react-router-dom"
 
 const products = [
   { id: 1, name: "Bell Pepper", category: "Vegetables", image: product, discount: "30%" },
@@ -36,7 +37,7 @@ function ShopProducts() {
 
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     className={activeTab === "All" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
@@ -49,7 +50,7 @@ function ShopProducts() {
 
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     className={activeTab === "Vegetables" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
@@ -62,7 +63,7 @@ function ShopProducts() {
 
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     className={activeTab === "Fruits" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
@@ -75,7 +76,7 @@ function ShopProducts() {
 
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     className={activeTab === "Juice" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
@@ -88,7 +89,7 @@ function ShopProducts() {
 
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     className={activeTab === "Dried" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
@@ -109,7 +110,7 @@ function ShopProducts() {
               <div className="col-md-6 col-lg-3 ftco-animate" key={item.id}>
                 <div className="product">
 
-                  <a href="#" className="img-prod">
+                  <Link to="/product-single" className="img-prod">
                     <img className="img-fluid" src={item.image} alt={item.name} />
 
                     {item.discount && (
@@ -117,7 +118,7 @@ function ShopProducts() {
                     )}
 
                     <div className="overlay"></div>
-                  </a>
+                  </Link>
 
                   <div className="text py-3 pb-4 px-3 text-center">
                     <h3>{item.name}</h3>
@@ -132,15 +133,15 @@ function ShopProducts() {
 
                     <div className="bottom-area d-flex px-3">
                       <div className="m-auto d-flex">
-                        <a href="#" className="add-to-cart">
-                          menu
-                        </a>
-                        <a href="#" className="buy-now mx-1">
-                          cart
-                        </a>
-                        <a href="#" className="heart">
-                          heart
-                        </a>
+                        <Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
+                          <span><i className="ion-ios-menu"></i></span>
+                        </Link>
+                        <Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
+                          <span><i className="ion-ios-cart"></i></span>
+                        </Link>
+                        <Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
+                          <span><i className="ion-ios-heart"></i></span>
+                        </Link>
                       </div>
                     </div>
 
@@ -153,40 +154,7 @@ function ShopProducts() {
         </div>
       </section>
 
-      {/* ================= NEWSLETTER ================= */}
-      <section className="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
-        <div className="container py-4">
-          <div className="row d-flex justify-content-center py-5">
-
-            <div className="col-md-6">
-              <h2 style={{ fontSize: "22px" }} className="mb-0">
-                Subscribe to our Newsletter
-              </h2>
-              <span>
-                Get e-mail updates about our latest shops and special offers
-              </span>
-            </div>
-
-            <div className="col-md-6 d-flex align-items-center">
-              <form className="subscribe-form">
-                <div className="form-group d-flex">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter email address"
-                  />
-                  <input
-                    type="submit"
-                    value="Subscribe"
-                    className="submit px-3"
-                  />
-                </div>
-              </form>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      
     </>
   );
 }

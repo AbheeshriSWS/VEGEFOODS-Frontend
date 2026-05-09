@@ -2,14 +2,14 @@ import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 
 
-import AnnBar from "../components/AnnouncementBar";
-import Navbar from "../components/Navbar";
+import AnnBar from "../common/AnnouncementBar";
+import Navbar from "../common/Navbar";
 import ShopHero from "../components/ShopHero";
 import ShopProducts from "../components/ShopProducts";
 import News from "../components/News";
-import Footer from "../components/Footer";
+import Footer from "../common/Footer";
 
-function Home() {
+function Shop() {
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -34,4 +34,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Shop;

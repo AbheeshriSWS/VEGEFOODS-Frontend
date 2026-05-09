@@ -10166,3 +10166,9 @@ body{
   display: block;
   margin-top: 2px;
 }
+
+.top-bar {
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}

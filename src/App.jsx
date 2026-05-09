@@ -6,6 +6,7 @@ import Shop from "./pages/Shop";
 import Wish from "./pages/Wishlist";
 import Single from "./pages/Single";
 import Blog from "./pages/Blog";
+import BlogSingle from "./pages/BlogSingle";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -20,6 +21,7 @@ function App() {
             <Route path="/wishlist" element={<Wish />} ></Route>
             <Route path="/product-single" element={<Single />} ></Route>
             <Route path="/blog" element={<Blog />} ></Route>
+            <Route path="/blog-single" element={<BlogSingle />} ></Route>
             <Route path="/contact" element={<Contact />} ></Route>
             <Route path="/cart" element={<Cart />} ></Route>
             <Route path="/checkout" element={<Checkout />} ></Route>

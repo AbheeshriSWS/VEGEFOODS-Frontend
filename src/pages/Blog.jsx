@@ -2,11 +2,11 @@ import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 
 
-import AnnBar from "../components/AnnouncementBar";
-import Navbar from "../components/Navbar";
+import AnnBar from "../common/AnnouncementBar";
+import Navbar from "../common/Navbar";
 import BlogHero from "../components/BlogHero";
 import BlogMain from "../components/BlogMain";
-import Footer from "../components/Footer";
+import Footer from "../common/Footer";
 
 function Blog() {
   const [loading, setLoading] = useState(true);

@@ -298,7 +298,7 @@ function Testimony() {
           <div className="row">
 
             <div className="col-sm ftco-animate">
-              <a href="#" className="partner">
+              <a href="javascript:void(0)" className="partner">
                 <img
                   src={product}
                   className="img-fluid"
@@ -308,7 +308,7 @@ function Testimony() {
             </div>
 
             <div className="col-sm ftco-animate">
-              <a href="#" className="partner">
+              <a href="javascript:void(0)" className="partner">
                 <img
                   src={product}
                   className="img-fluid"
@@ -318,7 +318,7 @@ function Testimony() {
             </div>
 
             <div className="col-sm ftco-animate">
-              <a href="#" className="partner">
+              <a href="javascript:void(0)" className="partner">
                 <img
                   src={product}
                   className="img-fluid"
@@ -328,7 +328,7 @@ function Testimony() {
             </div>
 
             <div className="col-sm ftco-animate">
-              <a href="#" className="partner">
+              <a href="javascript:void(0)" className="partner">
                 <img
                   src={product}
                   className="img-fluid"
@@ -338,7 +338,7 @@ function Testimony() {
             </div>
 
             <div className="col-sm ftco-animate">
-              <a href="#" className="partner">
+              <a href="javascript:void(0)" className="partner">
                 <img
                   src={product}
                   className="img-fluid"

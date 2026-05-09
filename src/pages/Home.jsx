@@ -2,15 +2,15 @@ import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 
 
-import AnnBar from "../components/AnnouncementBar";
-import Navbar from "../components/Navbar";
+import AnnBar from "../common/AnnouncementBar";
+import Navbar from "../common/Navbar";
 import Hero from "../components/Hero";
 import ShopNow from "../components/ShopNow";
 import Product from "../components/Product";
 import Deal from "../components/Deal";
 import Testimony from "../components/Testimony";
 import News from "../components/News";
-import Footer from "../components/Footer";
+import Footer from "../common/Footer";
 
 function Home() {
   const [loading, setLoading] = useState(true);

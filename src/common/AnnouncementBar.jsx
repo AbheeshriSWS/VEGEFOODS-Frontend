@@ -1,6 +1,6 @@
 function AnnBar(){
     return(
-        <div className="py-1 bg-primary">
+        <div className="py-1 bg-primary top-bar">
             <div className="container">
                 <div className="row no-gutters d-flex align-items-start align-items-center px-md-0">
                     <div className="col-lg-12 d-block">

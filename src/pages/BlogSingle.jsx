@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import AnnBar from "../common/AnnouncementBar";
 import Navbar from "../common/Navbar";
-import WishHero from "../components/WishHero";
-import WishProductList from "../components/WishProductList";
+import BlogHero from "../components/BlogHero";
+import BlogSingleCompo from "../components/BlogSingleCompo";
 import News from "../components/News";
 import Footer from "../common/Footer";
 
-function Wish() {
+function BlogSingle() {
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,12 +26,12 @@ function Wish() {
     <>
       <AnnBar />
       <Navbar />
-      <WishHero />
-      <WishProductList />
+      <BlogHero />
+      <BlogSingleCompo />
       <News />
       <Footer />
     </>
   );
 }
 
-export default Wish;
+export default BlogSingle;

@@ -31,7 +31,7 @@ function Hero() {
                   We deliver organic vegetables & fruits
                 </h2>
 
-                <a href="#" className="btn btn-primary">
+                <a href="javascript:void(0)" className="btn btn-primary">
                   View Details
                 </a>
               </div>
@@ -54,7 +54,7 @@ function Hero() {
                   We deliver organic vegetables & fruits
                 </h2>
 
-                <a href="#" className="btn btn-primary">
+                <a href="javascript:void(0)" className="btn btn-primary">
                   View Details
                 </a>
               </div>
