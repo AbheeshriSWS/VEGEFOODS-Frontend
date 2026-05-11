@@ -1,25 +1,24 @@
 import React from "react";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Header from "../components/Header/Header";
-import "../assets/styles/main.css";
+import Sidebar from "../components/layout/Sidebar/Sidebar";
+import Header from "../components/layout/Header/Header";
 
 const AdminLayout = ({ children }) => {
   return (
-    <div className="admin-layout">
+    <div className="flex min-h-screen bg-[#f7f9f4]">
 
+      {/* SIDEBAR */}
       <Sidebar />
 
-      <div className="admin-main">
+      {/* MAIN AREA */}
+      <div className="flex-1 flex flex-col">
 
+        {/* HEADER */}
         <Header />
 
-        <div className="admin-content">
+        {/* CONTENT AREA */}
+        <main className="p-6 bg-[#f7f9f4] min-h-screen">
           {children}
-        </div>
-
-        <footer className="admin-footer">
-          © 2026 Purple Admin Clone
-        </footer>
+        </main>
 
       </div>
 

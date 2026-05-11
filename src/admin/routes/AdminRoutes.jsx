@@ -2,6 +2,10 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AdminLayout from "../layout/AdminLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Users from "../pages/Users/User";
+import AddUser from "../pages/Users/AddUser";
+import Settings from "../pages/Settings/Settings";
+
 
 const AdminRoutes = () => {
   return (
@@ -11,9 +15,11 @@ const AdminRoutes = () => {
 
       <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
 
-      <Route path="/users" element={<AdminLayout><h1>Users</h1></AdminLayout>} />
+      <Route path="/users" element={<AdminLayout><Users /></AdminLayout>} />
 
-      <Route path="/settings" element={<AdminLayout><h1>Settings</h1></AdminLayout>} />
+      <Route path="/users/add" element={<AdminLayout><AddUser /></AdminLayout>} />
+
+      <Route path="/settings" element={<AdminLayout><Settings /></AdminLayout>} />
 
       <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
 
