@@ -1,0 +1,311 @@
+
+
+body{
+  margin:0;
+  background:#f2edf3;
+  font-family:'Poppins',sans-serif;
+}
+
+/* MAIN LAYOUT */
+
+.purple-admin{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.purple-sidebar{
+  width:260px;
+  background:#ffffff;
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  border-right:1px solid #ececec;
+  overflow-y:auto;
+  z-index:1000;
+}
+
+/* PROFILE */
+
+.purple-profile{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:25px 22px;
+  border-bottom:1px solid #f3f3f3;
+}
+
+.purple-profile img{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+}
+
+.purple-profile h6{
+  margin:0;
+  font-size:15px;
+  font-weight:700;
+  color:#222;
+}
+
+.purple-profile span{
+  font-size:12px;
+  color:#999;
+}
+
+/* MENU */
+
+.purple-sidebar ul{
+  list-style:none;
+  padding:15px 12px;
+  margin:0;
+}
+
+.purple-sidebar ul li{
+  margin-bottom:5px;
+}
+
+.purple-sidebar ul li a{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-decoration:none;
+  padding:14px 16px;
+  border-radius:10px;
+  color:#6c7383;
+  font-size:14px;
+  font-weight:500;
+  transition:all .25s ease;
+}
+
+.purple-sidebar ul li a i{
+  font-size:20px;
+}
+
+/* ACTIVE */
+
+.active-link{
+  background:linear-gradient(
+    90deg,
+    #b66dff 0%,
+    #9a55ff 100%
+  );
+  color:white !important;
+  box-shadow:0 4px 12px rgba(154,85,255,.35);
+}
+
+/* HOVER */
+
+.purple-sidebar ul li a:hover{
+  background:#f6f1fc;
+  color:#9a55ff;
+}
+
+/* MAIN */
+
+.purple-main{
+  margin-left:260px;
+  width:100%;
+}
+
+/* NAVBAR */
+
+.purple-navbar{
+  height:70px;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+  border-bottom:1px solid #ececec;
+  position:sticky;
+  top:0;
+  z-index:999;
+}
+
+/* SEARCH */
+
+.purple-search{
+  width:320px;
+  height:42px;
+  background:#f5f6fa;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+}
+
+.purple-search i{
+  color:#999;
+  font-size:20px;
+}
+
+.purple-search input{
+  border:none;
+  background:transparent;
+  margin-left:10px;
+  width:100%;
+  outline:none;
+  font-size:14px;
+}
+
+/* NAV RIGHT */
+
+.purple-nav-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* ICON BUTTON */
+
+.purple-icon-btn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#f5f6fa;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.purple-icon-btn:hover{
+  background:#9a55ff;
+  color:white;
+}
+
+.purple-icon-btn i{
+  font-size:20px;
+}
+
+/* CONTENT */
+
+.purple-content{
+  padding:30px;
+}
+
+/* CARDS */
+
+.purple-card{
+  border-radius:16px;
+  padding:28px;
+  color:white;
+  overflow:hidden;
+  position:relative;
+  min-height:180px;
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.purple-card h4{
+  font-size:18px;
+  font-weight:400;
+}
+
+.purple-card h2{
+  margin:20px 0;
+  font-size:38px;
+  font-weight:700;
+}
+
+.purple-card p{
+  margin:0;
+}
+
+.pink{
+  background:linear-gradient(
+    to right,
+    #ffbf96,
+    #fe7096
+  );
+}
+
+.blue{
+  background:linear-gradient(
+    to right,
+    #90caf9,
+    #047edf
+  );
+}
+
+.green{
+  background:linear-gradient(
+    to right,
+    #84d9d2,
+    #07cdae
+  );
+}
+
+/* BOXES */
+
+.dashboard-box{
+  background:white;
+  border-radius:16px;
+  padding:25px;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);
+}
+
+.dashboard-box h5{
+  margin-bottom:20px;
+  font-size:18px;
+  font-weight:700;
+}
+
+/* TABLE */
+
+.table{
+  margin-top:15px;
+}
+
+.table th{
+  color:#777;
+  font-size:14px;
+  font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+  .purple-sidebar{
+    width:220px;
+  }
+
+  .purple-main{
+    margin-left:220px;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .purple-sidebar{
+    display:none;
+  }
+
+  .purple-main{
+    margin-left:0;
+  }
+
+  .purple-search{
+    width:200px;
+  }
+
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+.purple-admin {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.purple-main {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+}
