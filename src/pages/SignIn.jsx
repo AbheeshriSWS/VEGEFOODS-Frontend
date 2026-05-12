@@ -1,14 +1,19 @@
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 import AnnBar from "../common/AnnouncementBar";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 
 function SignIn() {
+
   const [loading, setLoading] = useState(true);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -20,11 +25,34 @@ function SignIn() {
     return <Loader />;
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 🔥 Demo logic (later backend se replace karna)
+    let user = null;
+
+    if (email === "admin@gmail.com" && password === "1234") {
+      user = { email, role: "admin" };
+    } else {
+      user = { email, role: "user" };
+    }
+
+    // Save user
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Redirect based on role
+    if (user.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <AnnBar />
       <Navbar />
-      {/* Login Section */}
+
       <section className="ftco-section">
         <div className="container">
           <div className="row justify-content-center">
@@ -37,7 +65,7 @@ function SignIn() {
                   Welcome Back
                 </h3>
 
-                <form>
+                <form onSubmit={handleSubmit}>
 
                   {/* Email */}
                   <div className="form-group">
@@ -47,6 +75,8 @@ function SignIn() {
                       type="email"
                       className="form-control"
                       placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -58,6 +88,8 @@ function SignIn() {
                       type="password"
                       className="form-control"
                       placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
@@ -87,18 +119,17 @@ function SignIn() {
 
                   </div>
 
-                  {/* Signup Link */}
+                  {/* Signup */}
                   <p className="text-center mt-4">
-  Don&apos;t have an account?{" "}
-
-  <Link
-    to="/signup"
-    className="text-success"
-    style={{ textDecoration: "none" }}
-  >
-    Sign Up
-  </Link>
-</p>
+                    Don&apos;t have an account?{" "}
+                    <Link
+                      to="/signup"
+                      className="text-success"
+                      style={{ textDecoration: "none" }}
+                    >
+                      Sign Up
+                    </Link>
+                  </p>
 
                 </form>
 
@@ -109,6 +140,7 @@ function SignIn() {
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );

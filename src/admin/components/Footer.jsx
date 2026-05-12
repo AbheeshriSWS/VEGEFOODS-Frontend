@@ -5,9 +5,9 @@ const Footer = () => {
         © {new Date().getFullYear()} VegeFoods Admin Panel
       </div>
 
-      <div>
+      {/* <div>
         Designed with React + Vite
-      </div>
+      </div> */}
     </footer>
   );
 };

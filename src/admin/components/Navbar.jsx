@@ -4,12 +4,13 @@ import { toast } from "react-toastify";
 const Navbar = ({ onToggle }) => {
   return (
     <div className="purple-navbar">
-      <button
-  className="btn btn-light me-2"
-  onClick={onToggle}
->
-  ☰
-</button>
+      <div className="d-flex">
+        <button
+        className="btn btn-light me-2"
+        onClick={onToggle}
+      >
+        ☰
+      </button>
 
       <div className="purple-search">
 
@@ -20,6 +21,7 @@ const Navbar = ({ onToggle }) => {
           placeholder="Search projects"
         />
 
+      </div>
       </div>
 
       <div className="purple-nav-right">

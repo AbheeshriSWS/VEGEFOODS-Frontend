@@ -18,6 +18,7 @@ const Orders = () => {
               <th>Product</th>
               <th>Price</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -40,6 +41,15 @@ const Orders = () => {
                     {o.status}
                   </span>
                 </td>
+                <td>
+                <button className="btn btn-sm btn-primary me-2">
+                  Edit
+                </button>
+
+                <button className="btn btn-sm btn-danger">
+                  Delete
+                </button>
+              </td>
               </tr>
             ))}
           </tbody>
