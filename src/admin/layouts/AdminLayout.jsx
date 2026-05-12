@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import "../styles/admin.css";
 import { Outlet } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const AdminLayout = () => {
   return (
@@ -16,7 +17,7 @@ const AdminLayout = () => {
         <div className="purple-content">
           <Outlet />
         </div>
-
+        <Footer />
       </div>
 
     </div>

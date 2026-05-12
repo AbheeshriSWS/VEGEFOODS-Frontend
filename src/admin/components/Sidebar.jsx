@@ -73,6 +73,18 @@ const Sidebar = () => {
 
         <li>
           <NavLink
+            to="/admin/forms"
+            className={({ isActive }) =>
+              isActive ? "active-link" : ""
+            }
+          >
+            <i className="mdi mdi-form-select"></i>
+            Forms
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
             to="/admin/settings"
             className={({ isActive }) =>
               isActive ? "active-link" : ""

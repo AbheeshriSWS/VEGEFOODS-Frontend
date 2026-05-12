@@ -25,7 +25,7 @@ const pieData = [
   { name: "Social", value: 30 },
 ];
 
-const COLORS = ["#ff7eb3", "#7afcff", "#b388ff"];
+const COLORS = ["#ff7eb3", "#7afcff", "#82ae46"];
 
 const Dashboard = () => {
   return (
@@ -68,11 +68,16 @@ const Dashboard = () => {
             <h5>Visit And Sales Statistics</h5>
 
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={salesData}>
+              <BarChart data={salesData} cursor={false}>
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip />
-                <Bar dataKey="sales" fill="#b388ff" radius={[8, 8, 0, 0]} />
+                <Tooltip contentStyle={{
+    backgroundColor: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+  }} />
+                <Bar dataKey="sales" fill="#82ae46" radius={[8, 8, 0, 0]} activeBar={{ fill: "#86cf1e" }} />
               </BarChart>
             </ResponsiveContainer>
 
@@ -85,6 +90,14 @@ const Dashboard = () => {
 
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
+                <Tooltip
+  contentStyle={{
+    backgroundColor: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+  }}
+/>
                 <Pie
                   data={pieData}
                   cx="50%"

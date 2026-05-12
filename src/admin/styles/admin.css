@@ -89,8 +89,8 @@ body{
 .active-link{
   background:linear-gradient(
     90deg,
-    #b66dff 0%,
-    #9a55ff 100%
+    #86cf1e 0%,
+    #82ae46 100%
   );
   color:white !important;
   box-shadow:0 4px 12px rgba(154,85,255,.35);
@@ -99,8 +99,8 @@ body{
 /* HOVER */
 
 .purple-sidebar ul li a:hover{
-  background:#f6f1fc;
-  color:#9a55ff;
+  background:#82ae46;
+  color:#fff;
 }
 
 /* MAIN */
@@ -172,7 +172,7 @@ body{
 }
 
 .purple-icon-btn:hover{
-  background:#9a55ff;
+  background:#82ae46;
   color:white;
 }
 
@@ -240,7 +240,7 @@ body{
 /* BOXES */
 
 .dashboard-box{
-  background:white;
+  background:white !important;
   border-radius:16px;
   padding:25px;
   box-shadow:0 2px 12px rgba(0,0,0,.04);
@@ -251,6 +251,7 @@ body{
   font-size:18px;
   font-weight:700;
 }
+
 
 /* TABLE */
 
@@ -308,4 +309,47 @@ html, body {
   flex: 1;
   min-width: 0;
   overflow-x: hidden;
+}
+
+.purple-footer {
+  background: white;
+  border-top: 1px solid #eee;
+  padding: 18px 25px;
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.purple-card {
+  border-radius: 16px;
+  padding: 25px;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card-purple {
+  background: linear-gradient(45deg, #da8cff, #9a55ff);
+}
+
+.card-blue {
+  background: linear-gradient(45deg, #36d7e8, #b194fa);
+}
+
+.card-pink {
+  background: linear-gradient(45deg, #ffbf96, #fe7096);
+}
+
+.dashboard-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.recharts-tooltip-cursor {
+  display: none !important;
 }
