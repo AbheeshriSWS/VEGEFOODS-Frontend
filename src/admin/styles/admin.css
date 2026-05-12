@@ -295,9 +295,9 @@ body{
 
 }
 
-html, body {
+/* html, body {
   overflow-x: hidden;
-}
+} */
 
 .purple-admin {
   display: flex;
