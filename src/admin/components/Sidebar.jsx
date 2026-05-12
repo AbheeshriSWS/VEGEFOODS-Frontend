@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ( { collapsed } ) => {
   return (
-    <div className="purple-sidebar">
+    <div className={`purple-sidebar ${collapsed ? "collapsed" : ""}`} id="sidebar">
 
       {/* PROFILE */}
 
@@ -31,7 +31,7 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-home"></i>
-            Dashboard
+            <span className="menu-title">Dashboard</span>
           </NavLink>
         </li>
 
@@ -43,7 +43,8 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-package-variant"></i>
-            Products
+            <span className="menu-title">Products</span>
+            
           </NavLink>
         </li>
 
@@ -55,7 +56,8 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-cart"></i>
-            Orders
+            <span className="menu-title">Orders</span>
+            
           </NavLink>
         </li>
 
@@ -67,7 +69,8 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-account-group"></i>
-            Users
+            <span className="menu-title">Users</span>
+            
           </NavLink>
         </li>
 
@@ -79,7 +82,8 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-form-select"></i>
-            Forms
+            <span className="menu-title">Forms</span>
+            
           </NavLink>
         </li>
 
@@ -91,7 +95,8 @@ const Sidebar = () => {
             }
           >
             <i className="mdi mdi-cog"></i>
-            Settings
+            <span className="menu-title">Settings</span>
+            
           </NavLink>
         </li>
 

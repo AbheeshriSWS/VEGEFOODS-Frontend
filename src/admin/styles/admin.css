@@ -21,7 +21,7 @@ body{
   position:fixed;
   top:0;
   left:0;
-  height:100vh;
+  min-height:100vh;
   border-right:1px solid #ececec;
   overflow-y:auto;
   z-index:1000;
@@ -352,4 +352,74 @@ html, body {
 
 .recharts-tooltip-cursor {
   display: none !important;
+}
+
+/* ===== SIDEBAR COLLAPSE FIX ===== */
+
+.purple-sidebar{
+  width:260px;
+  min-width:260px;
+  transition:all .3s ease;
+  overflow-x:hidden;
+}
+
+/* COLLAPSED */
+
+.purple-sidebar.collapsed{
+  width:80px;
+  min-width:80px;
+}
+
+/* HIDE TEXT */
+
+.purple-sidebar.collapsed .menu-title{
+  display:none;
+}
+
+/* CENTER ICONS */
+
+.purple-sidebar.collapsed ul li a{
+  justify-content:center;
+  padding:14px 0;
+}
+
+/* REMOVE EXTRA ICON SHIFT */
+
+.purple-sidebar.collapsed ul li a i{
+  margin:0;
+  min-width:auto;
+}
+
+/* CENTER PROFILE IMAGE */
+
+.purple-sidebar.collapsed .purple-profile{
+  justify-content:center;
+}
+
+/* HIDE PROFILE TEXT */
+
+.purple-sidebar.collapsed .purple-profile div{
+  display:none;
+}
+
+/* REMOVE SCROLLBAR */
+
+.purple-sidebar::-webkit-scrollbar{
+  width:0;
+  display:none;
+}
+
+/* ===== MAIN CONTENT EXPAND ===== */
+
+.purple-main{
+  margin-left:260px;
+  width:calc(100% - 260px);
+  transition:all .3s ease;
+}
+
+/* WHEN SIDEBAR COLLAPSED */
+
+.purple-admin.collapsed .purple-main{
+  margin-left:80px;
+  width:calc(100% - 80px);
 }

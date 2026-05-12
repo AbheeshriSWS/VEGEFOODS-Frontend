@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+
 
 const Forms = () => {
 
@@ -7,7 +9,7 @@ const Forms = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Product Added: ${name} - $${price}`);
+    toast.success("Form submitted successfully");
   };
 
   return (

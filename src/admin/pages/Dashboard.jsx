@@ -68,7 +68,7 @@ const Dashboard = () => {
             <h5>Visit And Sales Statistics</h5>
 
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={salesData} cursor={false}>
+              <BarChart data={salesData} >
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip contentStyle={{

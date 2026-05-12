@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+
 
 const Settings = () => {
   const [name, setName] = useState("Admin");
@@ -6,7 +8,7 @@ const Settings = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
-    alert("Settings Updated!");
+    toast.success("Settings Updated");
   };
 
   return (

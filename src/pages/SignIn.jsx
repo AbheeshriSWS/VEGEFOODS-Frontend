@@ -1,5 +1,6 @@
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 import AnnBar from "../common/AnnouncementBar";
@@ -88,15 +89,16 @@ function SignIn() {
 
                   {/* Signup Link */}
                   <p className="text-center mt-4">
-                    Don&apos;t have an account?{" "}
+  Don&apos;t have an account?{" "}
 
-                    <span
-                      className="text-success"
-                      style={{ cursor: "pointer" }}
-                    >
-                      Sign Up
-                    </span>
-                  </p>
+  <Link
+    to="/signup"
+    className="text-success"
+    style={{ textDecoration: "none" }}
+  >
+    Sign Up
+  </Link>
+</p>
 
                 </form>
 
