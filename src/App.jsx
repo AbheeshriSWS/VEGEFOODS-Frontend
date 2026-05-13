@@ -32,8 +32,9 @@ function App() {
             <Route path="/cart" element={<Cart />} ></Route>
             <Route path="/checkout" element={<Checkout />} ></Route>
             <Route path="/signin" element={<SignIn />} ></Route>
-            <Route path="/admin/login" element={<SignIn />} ></Route>
             <Route path="/signup" element={<SignUp />} ></Route>
+
+            {/* <Route path="/admin/login" element={<SignIn />} ></Route> */}
         </Routes>
     </>
   );

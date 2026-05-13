@@ -1,6 +1,17 @@
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ( { collapsed } ) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+  localStorage.removeItem("admin");
+
+  navigate("/admin/login");
+};
+
+
   return (
     <div className={`purple-sidebar ${collapsed ? "collapsed" : ""}`} id="sidebar">
 
@@ -74,7 +85,7 @@ const Sidebar = ( { collapsed } ) => {
           </NavLink>
         </li>
 
-        <li>
+        {/* <li>
           <NavLink
             to="/admin/forms"
             className={({ isActive }) =>
@@ -85,7 +96,7 @@ const Sidebar = ( { collapsed } ) => {
             <span className="menu-title">Forms</span>
             
           </NavLink>
-        </li>
+        </li> */}
 
         <li>
           <NavLink
@@ -100,6 +111,14 @@ const Sidebar = ( { collapsed } ) => {
           </NavLink>
         </li>
 
+           
+            <button
+  className="btn btn-danger w-100 mt-4"
+  onClick={handleLogout}
+>
+  Logout
+</button>
+          
       </ul>
 
     </div>
