@@ -91,7 +91,7 @@ const Orders = () => {
               <th>Product</th>
               <th>Price</th>
               <th>Status</th>
-              <th>Actions</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
 
@@ -118,7 +118,7 @@ const Orders = () => {
                   </span>
                 </td>
 
-                <td>
+                {/* <td>
                   <button
                     className="btn btn-sm btn-primary me-2"
                     onClick={() => handleEdit(o)}
@@ -135,7 +135,7 @@ const Orders = () => {
                   >
                     Delete
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
@@ -143,141 +143,7 @@ const Orders = () => {
       </div>
 
       {/* Edit Modal */}
-      {showModal && (
-        <div
-          className="modal d-block"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-          onClick={() => setShowModal(false)}
-        >
-          <div className="modal-dialog">
-            <div
-              className="modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              <div className="modal-header">
-                <h5 className="modal-title">
-                  Edit Order
-                </h5>
-
-                <button
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                ></button>
-              </div>
-
-              {/* Body */}
-              <div className="modal-body">
-                <form onSubmit={handleSubmit}>
-                  <input
-                    className="form-control mb-3"
-                    placeholder="Product"
-                    value={product}
-                    onChange={(e) =>
-                      setProduct(e.target.value)
-                    }
-                  />
-
-                  <input
-                    className="form-control mb-3"
-                    placeholder="Price"
-                    value={price}
-                    onChange={(e) =>
-                      setPrice(e.target.value)
-                    }
-                  />
-
-                  <select
-                    className="form-select mb-3"
-                    value={status}
-                    onChange={(e) =>
-                      setStatus(e.target.value)
-                    }
-                  >
-                    <option value="Delivered">
-                      Delivered
-                    </option>
-
-                    <option value="Pending">
-                      Pending
-                    </option>
-
-                    <option value="Cancelled">
-                      Cancelled
-                    </option>
-                  </select>
-
-                  <button className="btn btn-primary">
-                    Update Order
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div
-          className="modal d-block"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-          onClick={() =>
-            setShowDeleteModal(false)
-          }
-        >
-          <div className="modal-dialog modal-sm">
-            <div
-              className="modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              <div className="modal-header">
-                <h5 className="modal-title">
-                  Confirm Delete
-                </h5>
-
-                <button
-                  className="btn-close"
-                  onClick={() =>
-                    setShowDeleteModal(false)
-                  }
-                ></button>
-              </div>
-
-              {/* Body */}
-              <div className="modal-body">
-                <p>
-                  Are you sure you want to delete
-                  this order?
-                </p>
-
-                <div className="d-flex justify-content-end">
-                  <button
-                    className="btn btn-secondary me-2"
-                    onClick={() =>
-                      setShowDeleteModal(false)
-                    }
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    className="btn btn-danger"
-                    onClick={confirmDelete}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

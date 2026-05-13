@@ -2,30 +2,59 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 const AddUser = () => {
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const newUser = {
-      name,
-      email,
-      role,
-    };
+  if (
+  !name.trim() ||
+  !email.trim() ||
+  !role.trim()
+) {
+  toast.error("All fields are required");
+  return;
+}
 
-    console.log(newUser);
+  const oldUsers =
+    JSON.parse(localStorage.getItem("users")) || [];
 
-    toast.success("User added successfully");
+  // Auto increment ID
+  const nextId =
+    oldUsers.length > 0
+      ? Math.max(...oldUsers.map((u) => u.id)) + 1
+      : 1;
 
-    // Clear form
-    setName("");
-    setEmail("");
-    setRole("");
+  const newUser = {
+    id: nextId,
+    name,
+    email,
+    role,
   };
+
+  const updatedUsers = [...oldUsers, newUser];
+
+  localStorage.setItem(
+    "users",
+    JSON.stringify(updatedUsers)
+  );
+
+  toast.success("User added successfully");
+
+  navigate("/admin/users");
+
+  setName("");
+  setEmail("");
+  setRole("");
+};
 
   return (
     <div className="container mt-4">

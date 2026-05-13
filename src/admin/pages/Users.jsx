@@ -4,26 +4,44 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@gmail.com",
-      role: "Admin",
-    },
-    {
-      id: 2,
-      name: "Sarah Smith",
-      email: "sarah@gmail.com",
-      role: "User",
-    },
-    {
-      id: 3,
-      name: "Mike Ross",
-      email: "mike@gmail.com",
-      role: "Editor",
-    },
-  ]);
+  const defaultUsers = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john@gmail.com",
+    role: "Admin",
+  },
+  {
+    id: 2,
+    name: "Sarah Smith",
+    email: "sarah@gmail.com",
+    role: "User",
+  },
+  {
+    id: 3,
+    name: "Mike Ross",
+    email: "mike@gmail.com",
+    role: "Editor",
+  },
+];
+
+const [users, setUsers] = useState(() => {
+  const savedUsers = JSON.parse(
+    localStorage.getItem("users")
+  );
+
+  // If localStorage empty → show default users
+  if (!savedUsers || savedUsers.length === 0) {
+    localStorage.setItem(
+      "users",
+      JSON.stringify(defaultUsers)
+    );
+
+    return defaultUsers;
+  }
+
+  return savedUsers;
+});
 
   const [showModal, setShowModal] = useState(false);
 
@@ -52,6 +70,15 @@ const Users = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+   if (
+  !name.trim() ||
+  !email.trim() ||
+  !role.trim()
+) {
+  toast.error("All fields are required");
+  return;
+}
+
     const updatedUsers = users.map((u) =>
       u.id === editingUser.id
         ? {
@@ -65,6 +92,11 @@ const Users = () => {
 
     setUsers(updatedUsers);
 
+    localStorage.setItem(
+    "users",
+    JSON.stringify(updatedUsers)
+  );
+
     toast.success("User updated successfully");
 
     setShowModal(false);
@@ -72,16 +104,21 @@ const Users = () => {
 
   // Delete User
   const confirmDelete = () => {
-    const filteredUsers = users.filter(
-      (u) => u.id !== editingUser.id
-    );
+  const filteredUsers = users.filter(
+    (u) => u.id !== editingUser.id
+  );
 
-    setUsers(filteredUsers);
+  setUsers(filteredUsers);
 
-    toast.success("User deleted successfully");
+  localStorage.setItem(
+    "users",
+    JSON.stringify(filteredUsers)
+  );
 
-    setShowDeleteModal(false);
-  };
+  toast.success("User deleted successfully");
+
+  setShowDeleteModal(false);
+};
 
   return (
     <div>
@@ -184,16 +221,17 @@ const Users = () => {
                     value={name}
                     onChange={(e) =>
                       setName(e.target.value)
-                    }
+                    } required
                   />
 
                   <input
                     className="form-control mb-3"
+                    type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) =>
                       setEmail(e.target.value)
-                    }
+                    } required
                   />
 
                   <select
@@ -201,7 +239,7 @@ const Users = () => {
                     value={role}
                     onChange={(e) =>
                       setRole(e.target.value)
-                    }
+                    } required
                   >
                     <option value="Admin">
                       Admin

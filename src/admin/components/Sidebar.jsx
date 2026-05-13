@@ -5,20 +5,6 @@ import { useState } from "react";
 const Sidebar = ( { collapsed } ) => {
   const navigate = useNavigate();
 
-//   const handleLogout = () => {
-
-//   localStorage.removeItem("admin");
-
-//   navigate("/admin/login");
-// };
-
-const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-const confirmLogout = () => {
-  localStorage.removeItem("admin");
-  navigate("/admin/login");
-};
-
   return (
     <div className={`purple-sidebar ${collapsed ? "collapsed" : ""}`} id="sidebar">
 
@@ -92,19 +78,6 @@ const confirmLogout = () => {
           </NavLink>
         </li>
 
-        {/* <li>
-          <NavLink
-            to="/admin/forms"
-            className={({ isActive }) =>
-              isActive ? "active-link" : ""
-            }
-          >
-            <i className="mdi mdi-form-select"></i>
-            <span className="menu-title">Forms</span>
-            
-          </NavLink>
-        </li> */}
-
         <li>
           <NavLink
             to="/admin/settings"
@@ -117,52 +90,8 @@ const confirmLogout = () => {
             
           </NavLink>
         </li>
-
-           
-            <button
-  className="btn btn-danger w-100 mt-4"
-  onClick={() => setShowLogoutModal(true)}
->
-  Logout
-</button>
           
       </ul>
-
-
-      {showLogoutModal && (
-  <div
-    className="modal d-block"
-    style={{ background: "rgba(0,0,0,0.5)" }}
-  >
-    <div className="modal-dialog">
-      <div className="modal-content p-3">
-
-        <h5>Confirm Logout</h5>
-        <p>Are you sure you want to logout?</p>
-
-        <div className="d-flex justify-content-end gap-2">
-
-          <button
-            className="btn btn-secondary"
-            onClick={() => setShowLogoutModal(false)}
-          >
-            Cancel
-          </button>
-
-          <button
-            className="btn btn-danger"
-            onClick={confirmLogout}
-          >
-            Logout
-          </button>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-)}
-
     </div>
   );
 };

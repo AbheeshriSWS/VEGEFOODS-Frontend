@@ -44,37 +44,57 @@ const Products = () => {
 
   // Save Product
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (editingProduct) {
-      // Update product
-      const updatedProducts = products.map((p) =>
-        p.id === editingProduct.id
-          ? { ...p, name, price }
-          : p
-      );
+  // Validation
+  if (!name.trim() || !price.toString().trim()) {
+    toast.error("All fields are required");
+    return;
+  }
 
-      setProducts(updatedProducts);
+  if (Number(price) <= 0) {
+    toast.error("Price must be greater than 0");
+    return;
+  }
 
-      toast.success("Product updated successfully");
-    } else {
-      // Add product
-      const newProduct = {
-        id: products.length + 1,
-        name,
-        price,
-        status: "Active",
-      };
+  if (editingProduct) {
+    // Update product
+    const updatedProducts = products.map((p) =>
+      p.id === editingProduct.id
+        ? {
+            ...p,
+            name: name.trim(),
+            price: Number(price),
+          }
+        : p
+    );
 
-      setProducts([...products, newProduct]);
+    setProducts(updatedProducts);
 
-      toast.success("Product added successfully");
-    }
+    toast.success("Product updated successfully");
+  } else {
+    // Add product
 
-    setName("");
-    setPrice("");
-    setShowModal(false);
-  };
+    const newProduct = {
+      id:
+        products.length > 0
+          ? Math.max(...products.map((p) => p.id)) + 1
+          : 1,
+
+      name: name.trim(),
+      price: Number(price),
+      status: "Active",
+    };
+
+    setProducts([...products, newProduct]);
+
+    toast.success("Product added successfully");
+  }
+
+  setName("");
+  setPrice("");
+  setShowModal(false);
+};
 
   // Delete Product
   const confirmDelete = () => {
@@ -199,6 +219,7 @@ const Products = () => {
 
                   <input
                     className="form-control mb-3"
+                    type="number"
                     placeholder="Price"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
