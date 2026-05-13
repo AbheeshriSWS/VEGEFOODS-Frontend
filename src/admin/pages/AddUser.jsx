@@ -96,17 +96,19 @@ const AddUser = () => {
             required
           />
 
-          <select
-            className="form-control mb-3"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <option value="">Select Role</option>
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-            <option value="Editor">Editor</option>
-          </select>
+          <div className="select-wrapper mb-3">
+            <select
+              className="form-control mb-3"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+            >
+              <option value="">Select Role</option>
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+              <option value="Editor">Editor</option>
+            </select>
+          </div>
 
           <button
             type="submit"
