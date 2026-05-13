@@ -41,7 +41,7 @@ const AdminLogin = () => {
         style={{ maxWidth: "400px" }}
       >
 
-        <h2 className="mb-4 text-center">
+        <h2 className="mb-4 text-center clr-green">
           Admin Login
         </h2>
 
@@ -63,7 +63,7 @@ const AdminLogin = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button className="btn btn-dark w-100">
+          <button className="btn w-100 bg-green">
             Login
           </button>
 

@@ -423,3 +423,10 @@ body{
   margin-left:80px;
   width:calc(100% - 80px);
 }
+
+.bg-green{
+  background-color: #82ae46 !important;
+}
+.clr-green{
+  color: #82ae46;
+}
