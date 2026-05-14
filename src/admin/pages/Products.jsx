@@ -1,112 +1,233 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+const API_URL = "https://fakestoreapi.com/products";
+
 const Products = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [products, setProducts] = useState([]);
 
-  const [name, setName] = useState("");
+  const [showModal, setShowModal] =
+    useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] =
+    useState(false);
+
+  const [editingProduct, setEditingProduct] =
+    useState(null);
+
+  // Form States
+  const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [description, setDescription] =
+    useState("");
+  const [category, setCategory] =
+    useState("");
+  const [image, setImage] = useState("");
 
-  const [editingProduct, setEditingProduct] = useState(null);
+  // =========================
+  // GET PRODUCTS
+  // =========================
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(API_URL);
 
-  // Sample products
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Apple",
-      price: 10,
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Banana",
-      price: 5,
-      status: "Pending",
-    },
-  ]);
+      const data = await response.json();
 
-  // Open Add Modal
+      setProducts(data);
+    } catch (error) {
+      toast.error(
+        "Failed to fetch products"
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // =========================
+  // OPEN ADD MODAL
+  // =========================
   const openAddModal = () => {
     setEditingProduct(null);
-    setName("");
+
+    setTitle("");
     setPrice("");
+    setDescription("");
+    setCategory("");
+    setImage("");
+
     setShowModal(true);
   };
 
-  // Open Edit Modal
+  // =========================
+  // OPEN EDIT MODAL
+  // =========================
   const handleEdit = (product) => {
     setEditingProduct(product);
-    setName(product.name);
+
+    setTitle(product.title);
     setPrice(product.price);
+    setDescription(product.description);
+    setCategory(product.category);
+    setImage(product.image);
+
     setShowModal(true);
   };
 
-  // Save Product
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  // =========================
+  // ADD / UPDATE PRODUCT
+  // =========================
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Validation
-  if (!name.trim() || !price.toString().trim()) {
-    toast.error("All fields are required");
-    return;
-  }
+    // Validation
+    if (
+      !title.trim() ||
+      !price ||
+      !description.trim() ||
+      !category.trim() ||
+      !image.trim()
+    ) {
+      toast.error(
+        "All fields are required"
+      );
 
-  if (Number(price) <= 0) {
-    toast.error("Price must be greater than 0");
-    return;
-  }
+      return;
+    }
 
-  if (editingProduct) {
-    // Update product
-    const updatedProducts = products.map((p) =>
-      p.id === editingProduct.id
-        ? {
-            ...p,
-            name: name.trim(),
-            price: Number(price),
-          }
-        : p
-    );
+    if (Number(price) <= 0) {
+      toast.error(
+        "Price must be greater than 0"
+      );
 
-    setProducts(updatedProducts);
+      return;
+    }
 
-    toast.success("Product updated successfully");
-  } else {
-    // Add product
+    const productData = {
+      title,
 
-    const newProduct = {
-      id:
-        products.length > 0
-          ? Math.max(...products.map((p) => p.id)) + 1
-          : 1,
-
-      name: name.trim(),
       price: Number(price),
-      status: "Active",
+
+      description,
+
+      category,
+
+      image,
     };
 
-    setProducts([...products, newProduct]);
+    try {
+      // =====================
+      // UPDATE PRODUCT
+      // =====================
+      if (editingProduct) {
+        const response = await fetch(
+          `${API_URL}/${editingProduct.id}`,
+          {
+            method: "PUT",
 
-    toast.success("Product added successfully");
-  }
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-  setName("");
-  setPrice("");
-  setShowModal(false);
-};
+            body: JSON.stringify(
+              productData
+            ),
+          }
+        );
 
-  // Delete Product
-  const confirmDelete = () => {
-    const filteredProducts = products.filter(
-      (p) => p.id !== editingProduct.id
-    );
+        const updatedProduct =
+          await response.json();
 
-    setProducts(filteredProducts);
+        const updatedProducts =
+          products.map((p) =>
+            p.id === editingProduct.id
+              ? updatedProduct
+              : p
+          );
 
-    toast.success("Product deleted successfully");
+        setProducts(updatedProducts);
 
-    setShowDeleteModal(false);
+        toast.success(
+          "Product updated successfully"
+        );
+      }
+
+      // =====================
+      // ADD PRODUCT
+      // =====================
+      else {
+        const response = await fetch(
+          API_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify(
+              productData
+            ),
+          }
+        );
+
+        const newProduct =
+          await response.json();
+
+        setProducts([
+          ...products,
+          newProduct,
+        ]);
+
+        toast.success(
+          "Product added successfully"
+        );
+      }
+
+      // Reset Form
+      setTitle("");
+      setPrice("");
+      setDescription("");
+      setCategory("");
+      setImage("");
+
+      setShowModal(false);
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  // =========================
+  // DELETE PRODUCT
+  // =========================
+  const confirmDelete = async () => {
+    try {
+      await fetch(
+        `${API_URL}/${editingProduct.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const filteredProducts =
+        products.filter(
+          (p) =>
+            p.id !== editingProduct.id
+        );
+
+      setProducts(filteredProducts);
+
+      toast.success(
+        "Product deleted successfully"
+      );
+
+      setShowDeleteModal(false);
+    } catch (error) {
+      toast.error("Delete failed");
+    }
   };
 
   return (
@@ -129,9 +250,17 @@ const Products = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
+
+              <th>Image</th>
+
+              <th>Title</th>
+
               <th>Price</th>
-              <th>Status</th>
+
+              <th>Description</th>
+
+              <th>Category</th>
+
               <th>Actions</th>
             </tr>
           </thead>
@@ -141,26 +270,34 @@ const Products = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
 
-                <td>{product.name}</td>
+                <td>
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    width="60"
+                    height="60"
+                    style={{
+                      objectFit: "contain",
+                    }}
+                  />
+                </td>
+
+                <td>{product.title}</td>
 
                 <td>${product.price}</td>
 
                 <td>
-                  <span
-                    className={`badge ${
-                      product.status === "Active"
-                        ? "bg-success"
-                        : "bg-warning text-dark"
-                    }`}
-                  >
-                    {product.status}
-                  </span>
+                  {product.description}
                 </td>
+
+                <td>{product.category}</td>
 
                 <td>
                   <button
                     className="btn btn-sm btn-primary me-2"
-                    onClick={() => handleEdit(product)}
+                    onClick={() =>
+                      handleEdit(product)
+                    }
                   >
                     Edit
                   </button>
@@ -168,8 +305,13 @@ const Products = () => {
                   <button
                     className="btn btn-sm btn-danger"
                     onClick={() => {
-                      setEditingProduct(product);
-                      setShowDeleteModal(true);
+                      setEditingProduct(
+                        product
+                      );
+
+                      setShowDeleteModal(
+                        true
+                      );
                     }}
                   >
                     Delete
@@ -181,17 +323,24 @@ const Products = () => {
         </table>
       </div>
 
-      {/* Add/Edit Modal */}
+      {/* ADD / EDIT MODAL */}
       {showModal && (
         <div
           className="modal d-block"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          onClick={() => setShowModal(false)}
+          style={{
+            backgroundColor:
+              "rgba(0,0,0,0.5)",
+          }}
+          onClick={() =>
+            setShowModal(false)
+          }
         >
           <div className="modal-dialog">
             <div
               className="modal-content"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               {/* Header */}
               <div className="modal-header">
@@ -203,26 +352,79 @@ const Products = () => {
 
                 <button
                   className="btn-close"
-                  onClick={() => setShowModal(false)}
+                  onClick={() =>
+                    setShowModal(false)
+                  }
                 ></button>
               </div>
 
               {/* Body */}
               <div className="modal-body">
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={handleSubmit}
+                >
+                  {/* Title */}
                   <input
+                    type="text"
                     className="form-control mb-3"
-                    placeholder="Product Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Product Title"
+                    value={title}
+                    onChange={(e) =>
+                      setTitle(
+                        e.target.value
+                      )
+                    }
                   />
 
+                  {/* Price */}
                   <input
-                    className="form-control mb-3"
                     type="number"
+                    className="form-control mb-3"
                     placeholder="Price"
                     value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    onChange={(e) =>
+                      setPrice(
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  {/* Description */}
+                  <textarea
+                    className="form-control mb-3"
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) =>
+                      setDescription(
+                        e.target.value
+                      )
+                    }
+                  ></textarea>
+
+                  {/* Category */}
+                  <input
+                    type="text"
+                    className="form-control mb-3"
+                    placeholder="Category"
+                    value={category}
+                    onChange={(e) =>
+                      setCategory(
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  {/* Image URL */}
+                  <input
+                    type="text"
+                    className="form-control mb-3"
+                    placeholder="Image URL"
+                    value={image}
+                    onChange={(e) =>
+                      setImage(
+                        e.target.value
+                      )
+                    }
                   />
 
                   <button className="btn btn-primary">
@@ -237,18 +439,26 @@ const Products = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div
           className="modal d-block"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          onClick={() => setShowDeleteModal(false)}
+          style={{
+            backgroundColor:
+              "rgba(0,0,0,0.5)",
+          }}
+          onClick={() =>
+            setShowDeleteModal(false)
+          }
         >
           <div className="modal-dialog modal-sm">
             <div
               className="modal-content"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
+              {/* Header */}
               <div className="modal-header">
                 <h5 className="modal-title">
                   Confirm Delete
@@ -256,21 +466,28 @@ const Products = () => {
 
                 <button
                   className="btn-close"
-                  onClick={() => setShowDeleteModal(false)}
+                  onClick={() =>
+                    setShowDeleteModal(
+                      false
+                    )
+                  }
                 ></button>
               </div>
 
+              {/* Body */}
               <div className="modal-body">
                 <p>
-                  Are you sure you want to delete this
-                  product?
+                  Are you sure you want to
+                  delete this product?
                 </p>
 
                 <div className="d-flex justify-content-end">
                   <button
                     className="btn btn-secondary me-2"
                     onClick={() =>
-                      setShowDeleteModal(false)
+                      setShowDeleteModal(
+                        false
+                      )
                     }
                   >
                     Cancel

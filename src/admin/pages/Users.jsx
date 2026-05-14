@@ -1,47 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 import { Link } from "react-router-dom";
 
 const Users = () => {
-  const defaultUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@gmail.com",
-    role: "Admin",
-  },
-  {
-    id: 2,
-    name: "Sarah Smith",
-    email: "sarah@gmail.com",
-    role: "User",
-  },
-  {
-    id: 3,
-    name: "Mike Ross",
-    email: "mike@gmail.com",
-    role: "Editor",
-  },
-];
-
-const [users, setUsers] = useState(() => {
-  const savedUsers = JSON.parse(
-    localStorage.getItem("users")
-  );
-
-  // If localStorage empty → show default users
-  if (!savedUsers || savedUsers.length === 0) {
-    localStorage.setItem(
-      "users",
-      JSON.stringify(defaultUsers)
-    );
-
-    return defaultUsers;
-  }
-
-  return savedUsers;
-});
+  const [users, setUsers] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -51,74 +13,129 @@ const [users, setUsers] = useState(() => {
   const [editingUser, setEditingUser] =
     useState(null);
 
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [password, setPassword] = useState("");
 
-  // Open Edit Modal
+  // ================= GET USERS =================
+  const fetchUsers = async () => {
+  try {
+    const response = await fetch(
+      "https://fakestoreapi.com/users"
+    );
+
+    const apiUsers = await response.json();
+
+    // LOCAL USERS
+    const localUsers =
+      JSON.parse(
+        localStorage.getItem("users")
+      ) || [];
+
+    // REMOVE DUPLICATES
+    const allUsers = [
+      ...apiUsers,
+      ...localUsers,
+    ];
+
+    setUsers(allUsers);
+
+  } catch (error) {
+    console.log(error);
+
+    toast.error("Failed to fetch users");
+  }
+};
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // ================= EDIT OPEN =================
   const handleEdit = (user) => {
     setEditingUser(user);
 
-    setName(user.name);
+    setUsername(user.username);
     setEmail(user.email);
-    setRole(user.role);
+    setPassword(user.password);
 
     setShowModal(true);
   };
 
-  // Update User
-  const handleSubmit = (e) => {
+  // ================= UPDATE USER =================
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   if (
-  !name.trim() ||
-  !email.trim() ||
-  !role.trim()
-) {
-  toast.error("All fields are required");
-  return;
-}
+    if (
+      !username.trim() ||
+      !email.trim() ||
+      !password.trim()
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
 
-    const updatedUsers = users.map((u) =>
-      u.id === editingUser.id
-        ? {
-            ...u,
-            name,
+    try {
+      const response = await fetch(
+        `https://fakestoreapi.com/users/${editingUser.id}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            username,
             email,
-            role,
-          }
-        : u
-    );
+            password,
+          }),
+        }
+      );
 
-    setUsers(updatedUsers);
+      const updatedUser = await response.json();
 
-    localStorage.setItem(
-    "users",
-    JSON.stringify(updatedUsers)
-  );
+      const updatedUsers = users.map((u) =>
+        u.id === editingUser.id
+          ? { ...u, ...updatedUser }
+          : u
+      );
 
-    toast.success("User updated successfully");
+      setUsers(updatedUsers);
 
-    setShowModal(false);
+      toast.success("User updated successfully");
+
+      setShowModal(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Update failed");
+    }
   };
 
-  // Delete User
-  const confirmDelete = () => {
-  const filteredUsers = users.filter(
-    (u) => u.id !== editingUser.id
-  );
+  // ================= DELETE USER =================
+  const confirmDelete = async () => {
+    try {
+      await fetch(
+        `https://fakestoreapi.com/users/${editingUser.id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-  setUsers(filteredUsers);
+      const filteredUsers = users.filter(
+        (u) => u.id !== editingUser.id
+      );
 
-  localStorage.setItem(
-    "users",
-    JSON.stringify(filteredUsers)
-  );
+      setUsers(filteredUsers);
 
-  toast.success("User deleted successfully");
+      toast.success("User deleted successfully");
 
-  setShowDeleteModal(false);
-};
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Delete failed");
+    }
+  };
 
   return (
     <div>
@@ -127,11 +144,11 @@ const [users, setUsers] = useState(() => {
         <h2>Users</h2>
 
         <Link
-  to="/admin/users/add"
-  className="btn btn-success"
->
-  Add User
-</Link>
+          to="/admin/users/add"
+          className="btn btn-success"
+        >
+          Add User
+        </Link>
       </div>
 
       {/* Table */}
@@ -140,9 +157,9 @@ const [users, setUsers] = useState(() => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
+              <th>Username</th>
               <th>Email</th>
-              <th>Role</th>
+              <th>Password</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -152,15 +169,11 @@ const [users, setUsers] = useState(() => {
               <tr key={u.id}>
                 <td>{u.id}</td>
 
-                <td>{u.name}</td>
+                <td>{u.username}</td>
 
                 <td>{u.email}</td>
 
-                <td>
-                  <span className="badge bg-primary">
-                    {u.role}
-                  </span>
-                </td>
+                <td>{u.password}</td>
 
                 <td>
                   <button
@@ -200,7 +213,6 @@ const [users, setUsers] = useState(() => {
               className="modal-content"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
               <div className="modal-header">
                 <h5 className="modal-title">
                   Edit User
@@ -212,16 +224,15 @@ const [users, setUsers] = useState(() => {
                 ></button>
               </div>
 
-              {/* Body */}
               <div className="modal-body">
                 <form onSubmit={handleSubmit}>
                   <input
                     className="form-control mb-3"
-                    placeholder="Name"
-                    value={name}
+                    placeholder="Username"
+                    value={username}
                     onChange={(e) =>
-                      setName(e.target.value)
-                    } required
+                      setUsername(e.target.value)
+                    }
                   />
 
                   <input
@@ -231,28 +242,18 @@ const [users, setUsers] = useState(() => {
                     value={email}
                     onChange={(e) =>
                       setEmail(e.target.value)
-                    } required
+                    }
                   />
 
-                  <select
-                    className="form-select mb-3"
-                    value={role}
+                  <input
+                    className="form-control mb-3"
+                    type="text"
+                    placeholder="Password"
+                    value={password}
                     onChange={(e) =>
-                      setRole(e.target.value)
-                    } required
-                  >
-                    <option value="Admin">
-                      Admin
-                    </option>
-
-                    <option value="User">
-                      User
-                    </option>
-
-                    <option value="Editor">
-                      Editor
-                    </option>
-                  </select>
+                      setPassword(e.target.value)
+                    }
+                  />
 
                   <button className="btn btn-primary">
                     Update User
@@ -264,37 +265,22 @@ const [users, setUsers] = useState(() => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Modal */}
       {showDeleteModal && (
         <div
           className="modal d-block"
           style={{
             backgroundColor: "rgba(0,0,0,0.5)",
           }}
-          onClick={() =>
-            setShowDeleteModal(false)
-          }
         >
           <div className="modal-dialog modal-sm">
-            <div
-              className="modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
+            <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
                   Confirm Delete
                 </h5>
-
-                <button
-                  className="btn-close"
-                  onClick={() =>
-                    setShowDeleteModal(false)
-                  }
-                ></button>
               </div>
 
-              {/* Body */}
               <div className="modal-body">
                 <p>
                   Are you sure you want to delete
