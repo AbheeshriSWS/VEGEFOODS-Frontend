@@ -153,7 +153,7 @@ function SignUp() {
                         <label>Email Address</label>
 
                         <input
-                          type="email"
+                          type="text"
                           className="form-control"
                           placeholder="Enter email"
                           value={email}
