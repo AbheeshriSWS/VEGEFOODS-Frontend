@@ -14,6 +14,8 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [emailError, setEmailError] = useState("");
+const [passwordError, setPasswordError] = useState("");
 
   const navigate = useNavigate();
 
@@ -52,6 +54,28 @@ function SignIn() {
 
   const handleLogin = async (e) => {
   e.preventDefault();
+  
+   // Clear previous errors
+  setEmailError("");
+  setPasswordError("");
+  setIsError(false);
+  setMessage("");
+
+  let hasError = false;
+
+  // Inline validation
+  if (!email) {
+    setEmailError("Please enter your email or username");
+    hasError = true;
+  }
+
+  if (!password) {
+    setPasswordError("Please enter your password");
+    hasError = true;
+  }
+
+  if (hasError) return; // stop submission if validation fails
+
 
   const loginData = {
   username: email,
@@ -85,13 +109,15 @@ if (response.ok && data.token) {
   navigate("/");
 } else {
   setIsError(true);
-  setMessage(data || "Invalid login");
+  // setMessage(data || "Invalid login");
+  setMessage("Invalid credentials");
 }
 
   } catch (error) {
   console.log("ERROR:", error);
   setIsError(true);
-  setMessage(error.message);
+  // setMessage(error.message);
+  setMessage("Invalid credentials");
 }
 };  
 
@@ -139,6 +165,11 @@ if (response.ok && data.token) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
+                     {emailError && (
+    <small style={{ color: "red", display: "block", marginTop: "5px" }}>
+      {emailError}
+    </small>
+  )}
                   </div>
 
                   {/* Password */}
@@ -152,6 +183,11 @@ if (response.ok && data.token) {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                     {passwordError && (
+    <small style={{ color: "red", display: "block", marginTop: "5px" }}>
+      {passwordError}
+    </small>
+  )}
                   </div>
 
                   {/* Remember */}
@@ -162,7 +198,7 @@ if (response.ok && data.token) {
                       <span>Remember me</span>
                     </div>
 
-                    <a href="#" className="text-success">
+                    <a href="javascript:void(0)" className="text-success">
                       Forgot Password?
                     </a>
 
