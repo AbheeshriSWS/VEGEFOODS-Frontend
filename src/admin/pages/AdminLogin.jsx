@@ -53,6 +53,7 @@ const AdminLogin = () => {
             placeholder="Admin Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <input
@@ -61,6 +62,7 @@ const AdminLogin = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <button className="btn w-100 bg-green">

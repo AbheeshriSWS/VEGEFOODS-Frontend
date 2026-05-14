@@ -1,13 +1,24 @@
-import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 
+import Loader from "../components/Loader";
+
+import { useNavigate } from "react-router-dom";
 
 import AnnBar from "../common/AnnouncementBar";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 
 function SignUp() {
+
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -19,6 +30,46 @@ function SignUp() {
     return <Loader />;
   }
 
+  
+
+
+  const handleSignup = async (e) => {
+  e.preventDefault();
+
+  const userData = {
+    name,
+    email,
+    password,
+  };
+
+  try {
+    const response = await fetch("https://fakestoreapi.com/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    setMessage("Account created successfully!");
+
+     setName("");
+  setEmail("");
+  setPassword("");
+
+
+    setTimeout(() => {
+  setMessage("");
+}, 3000);
+  } catch (error) {
+    console.log(error);
+    setMessage("Something went wrong!");
+  }
+};
   return (
     <>
       <AnnBar />
@@ -37,7 +88,19 @@ function SignUp() {
                   Create Your Account
                 </h3>
 
-                <form>
+                {message && (
+                  <p style={{
+                    color: "green",
+                    backgroundColor: "#e6ffe6",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    marginBottom: "15px"
+                  }}>
+                    {message}
+                  </p>
+                )}
+
+                <form onSubmit={handleSignup}>
 
                   <div className="row">
 
@@ -50,12 +113,14 @@ function SignUp() {
                           type="text"
                           className="form-control"
                           placeholder="Enter first name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
                     </div>
 
                     {/* Last Name */}
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Last Name</label>
 
@@ -65,10 +130,10 @@ function SignUp() {
                           placeholder="Enter last name"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Username */}
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                       <div className="form-group">
                         <label>
                           Username <small>(Optional)</small>
@@ -80,7 +145,7 @@ function SignUp() {
                           placeholder="Enter username"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Email */}
                     <div className="col-md-6">
@@ -91,12 +156,14 @@ function SignUp() {
                           type="email"
                           className="form-control"
                           placeholder="Enter email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                     </div>
 
                     {/* Mobile */}
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Mobile Number</label>
 
@@ -106,7 +173,7 @@ function SignUp() {
                           placeholder="Enter mobile number"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Password */}
                     <div className="col-md-6">
@@ -117,12 +184,14 @@ function SignUp() {
                           type="password"
                           className="form-control"
                           placeholder="Enter password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
                     </div>
 
                     {/* Confirm Password */}
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Confirm Password</label>
 
@@ -130,12 +199,14 @@ function SignUp() {
                           type="password"
                           className="form-control"
                           placeholder="Confirm password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Gender */}
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>
                           Gender <small>(Optional)</small>
@@ -153,10 +224,10 @@ function SignUp() {
 
                         </select>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Pincode */}
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Pincode / ZIP Code</label>
 
@@ -166,10 +237,10 @@ function SignUp() {
                           placeholder="Enter ZIP code"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Address */}
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                       <div className="form-group">
                         <label>Address</label>
 
@@ -179,10 +250,10 @@ function SignUp() {
                           placeholder="Enter address"
                         ></textarea>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Terms */}
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                       <div className="form-group">
 
                         <input type="checkbox" />{" "}
@@ -191,7 +262,7 @@ function SignUp() {
                         </span>
 
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Button */}
                     <div className="col-md-12">
@@ -214,6 +285,7 @@ function SignUp() {
                         <span
                           className="text-success"
                           style={{ cursor: "pointer" }}
+                          onClick={() => navigate("/signin")}
                         >
                           Sign In
                         </span>

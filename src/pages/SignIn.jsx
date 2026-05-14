@@ -12,6 +12,8 @@ function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,28 +27,73 @@ function SignIn() {
     return <Loader />;
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    // 🔥 Demo logic (later backend se replace karna)
-    let user = null;
+  //   // 🔥 Demo logic (later backend se replace karna)
+  //   let user = null;
 
-    if (email === "admin@gmail.com" && password === "1234") {
-      user = { email, role: "admin" };
-    } else {
-      user = { email, role: "user" };
-    }
+  //   if (email === "admin@gmail.com" && password === "1234") {
+  //     user = { email, role: "admin" };
+  //   } else {
+  //     user = { email, role: "user" };
+  //   }
 
-    // Save user
-    localStorage.setItem("user", JSON.stringify(user));
+  //   // Save user
+  //   localStorage.setItem("user", JSON.stringify(user));
 
-    // Redirect based on role
-    if (user.role === "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/");
-    }
-  };
+  //   // Redirect based on role
+  //   if (user.role === "admin") {
+  //     navigate("/admin");
+  //   } else {
+  //     navigate("/");
+  //   }
+  // };
+
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const loginData = {
+  username: email,
+  password: password,
+};
+
+  try {
+   const response = await fetch("https://fakestoreapi.com/auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(loginData),
+});
+
+const data = await response.json();
+
+console.log("STATUS:", response.status);
+console.log("DATA:", data);
+
+if (response.ok && data.token) {
+  setIsError(false);
+  setMessage("Login successful!");
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify({ username: email }));
+
+  setEmail("");
+  setPassword("");
+
+  navigate("/");
+} else {
+  setIsError(true);
+  setMessage(data || "Invalid login");
+}
+
+  } catch (error) {
+  console.log("ERROR:", error);
+  setIsError(true);
+  setMessage(error.message);
+}
+};  
 
   return (
     <>
@@ -65,14 +112,28 @@ function SignIn() {
                   Welcome Back
                 </h3>
 
-                <form onSubmit={handleSubmit}>
+                {message && (
+                  <p
+                    style={{
+                      color: isError ? "red" : "green",
+                      backgroundColor: isError ? "#ffe6e6" : "#e6ffe6",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    {message}
+                  </p>
+                )}
+
+                <form onSubmit={handleLogin}>
 
                   {/* Email */}
                   <div className="form-group">
                     <label>Email Address</label>
 
                     <input
-                      type="email"
+                      type="text"
                       className="form-control"
                       placeholder="Enter your email"
                       value={email}

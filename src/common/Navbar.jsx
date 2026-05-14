@@ -1,6 +1,21 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+ const handleLogout = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  window.location.reload();
+};
+
+const confirmLogout = () => {
+  setShowLogoutModal(true);
+};
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light sticky-top bg-light">
       <div className="container">
@@ -76,27 +91,39 @@ function Navbar() {
               </NavLink>
             </li>
 
-           <li className="nav-item d-flex align-items-center">
-  <NavLink
-    to="/signin"
-    className={({ isActive }) =>
-      isActive ? "nav-link active px-2" : "nav-link px-2"
-    }
-  >
-    Sign In
-  </NavLink>
+            <li className="nav-item d-flex align-items-center">
+            {user ? (
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                <span>Welcome {user.username}</span>
 
-  <span className="nav-link px-0 mb-0">/</span>
+                <button className="logout-btn" onClick={confirmLogout}>
+                  <i className="mdi mdi-power"></i>
+                </button>
+              </div>
+            ) : (
+              <>
+              <NavLink
+                to="/signin"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active px-2" : "nav-link px-2"
+                }
+              >
+                Sign In
+              </NavLink>
 
-  <NavLink
-    to="/signup"
-    className={({ isActive }) =>
-      isActive ? "nav-link active px-2" : "nav-link px-2"
-    }
-  >
-    Sign Up
-  </NavLink>
-</li>
+              <span className="nav-link px-0 mb-0">/</span>
+
+              <NavLink
+                to="/signup"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active px-2" : "nav-link px-2"
+                }
+              >
+                Sign Up
+              </NavLink>             
+            </>
+             )}
+             </li>
 
             <li className="nav-item cta cta-colored">
               <NavLink
@@ -113,6 +140,30 @@ function Navbar() {
         </div>
 
       </div>
+      {showLogoutModal && (
+  <div className="logout-overlay">
+    <div className="logout-modal">
+      <h4>Confirm Logout</h4>
+      <p>Are you sure you want to logout?</p>
+
+      <div className="logout-actions">
+        <button
+          className="btn btn-secondary"
+          onClick={() => setShowLogoutModal(false)}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="btn btn-danger"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </nav>
   );
 }
