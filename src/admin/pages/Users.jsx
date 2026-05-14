@@ -17,39 +17,60 @@ const Users = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ================= PAGINATION STATES =================
+
+  const [currentPage, setCurrentPage] =
+    useState(1);
+
+  const itemsPerPage = 5;
+
   // ================= GET USERS =================
   const fetchUsers = async () => {
-  try {
-    const response = await fetch(
-      "https://fakestoreapi.com/users"
-    );
+    try {
+      const response = await fetch(
+        "https://fakestoreapi.com/users"
+      );
 
-    const apiUsers = await response.json();
+      const apiUsers = await response.json();
 
-    // LOCAL USERS
-    const localUsers =
-      JSON.parse(
-        localStorage.getItem("users")
-      ) || [];
+      // LOCAL USERS
+      const localUsers =
+        JSON.parse(
+          localStorage.getItem("users")
+        ) || [];
 
-    // REMOVE DUPLICATES
-    const allUsers = [
-      ...apiUsers,
-      ...localUsers,
-    ];
+      // REMOVE DUPLICATES
+      const allUsers = [
+        ...apiUsers,
+        ...localUsers,
+      ];
 
-    setUsers(allUsers);
+      setUsers(allUsers);
+    } catch (error) {
+      console.log(error);
 
-  } catch (error) {
-    console.log(error);
-
-    toast.error("Failed to fetch users");
-  }
-};
+      toast.error("Failed to fetch users");
+    }
+  };
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  // ================= PAGINATION LOGIC =================
+
+  const totalPages = Math.ceil(
+    users.length / itemsPerPage
+  );
+
+  const startIndex =
+    (currentPage - 1) * itemsPerPage;
+
+  const endIndex =
+    startIndex + itemsPerPage;
+
+  const currentUsers =
+    users.slice(startIndex, endIndex);
 
   // ================= EDIT OPEN =================
   const handleEdit = (user) => {
@@ -82,7 +103,8 @@ const Users = () => {
           method: "PUT",
 
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
 
           body: JSON.stringify({
@@ -93,7 +115,8 @@ const Users = () => {
         }
       );
 
-      const updatedUser = await response.json();
+      const updatedUser =
+        await response.json();
 
       const updatedUsers = users.map((u) =>
         u.id === editingUser.id
@@ -103,7 +126,9 @@ const Users = () => {
 
       setUsers(updatedUsers);
 
-      toast.success("User updated successfully");
+      toast.success(
+        "User updated successfully"
+      );
 
       setShowModal(false);
     } catch (error) {
@@ -114,48 +139,56 @@ const Users = () => {
 
   // ================= DELETE USER =================
   const confirmDelete = async () => {
-  try {
-    await fetch(
-      `https://fakestoreapi.com/users/${editingUser.id}`,
-      {
-        method: "DELETE",
+    try {
+      await fetch(
+        `https://fakestoreapi.com/users/${editingUser.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      // REMOVE USER
+      const filteredUsers = users.filter(
+        (u) => u.id !== editingUser.id
+      );
+
+      // RESET IDS
+      const updatedUsers =
+        filteredUsers.map(
+          (user, index) => ({
+            ...user,
+            id: index + 1,
+          })
+        );
+
+      // FIX PAGE AFTER DELETE
+      if (
+        currentUsers.length === 1 &&
+        currentPage > 1
+      ) {
+        setCurrentPage(currentPage - 1);
       }
-    );
 
-    // REMOVE USER
-    const filteredUsers = users.filter(
-      (u) => u.id !== editingUser.id
-    );
+      // UPDATE STATE
+      setUsers(updatedUsers);
 
-    // RESET IDS
-    const updatedUsers = filteredUsers.map(
-      (user, index) => ({
-        ...user,
-        id: index + 1,
-      })
-    );
+      // SAVE LOCAL STORAGE
+      localStorage.setItem(
+        "users",
+        JSON.stringify(updatedUsers)
+      );
 
-    // UPDATE STATE
-    setUsers(updatedUsers);
+      toast.success(
+        "User deleted successfully"
+      );
 
-    // SAVE LOCAL STORAGE
-    localStorage.setItem(
-      "users",
-      JSON.stringify(updatedUsers)
-    );
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.log(error);
 
-    toast.success(
-      "User deleted successfully"
-    );
-
-    setShowDeleteModal(false);
-
-  } catch (error) {
-    console.log(error);
-
-    toast.error("Delete failed");
-  }
-};
+      toast.error("Delete failed");
+    }
+  };
 
   return (
     <div>
@@ -185,7 +218,7 @@ const Users = () => {
           </thead>
 
           <tbody>
-            {users.map((u) => (
+            {currentUsers.map((u) => (
               <tr key={u.id}>
                 <td>{u.id}</td>
 
@@ -198,7 +231,9 @@ const Users = () => {
                 <td>
                   <button
                     className="btn btn-sm btn-primary me-2"
-                    onClick={() => handleEdit(u)}
+                    onClick={() =>
+                      handleEdit(u)
+                    }
                   >
                     Edit
                   </button>
@@ -207,7 +242,9 @@ const Users = () => {
                     className="btn btn-sm btn-danger"
                     onClick={() => {
                       setEditingUser(u);
-                      setShowDeleteModal(true);
+                      setShowDeleteModal(
+                        true
+                      );
                     }}
                   >
                     Delete
@@ -217,6 +254,72 @@ const Users = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Pagination */}
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          {/* Left Side */}
+          <div>
+            Showing {startIndex + 1} to{" "}
+            {Math.min(
+              endIndex,
+              users.length
+            )}{" "}
+            of {users.length} entries
+          </div>
+
+          {/* Right Side */}
+          <div className="pagination-container">
+            {/* Previous */}
+            <button
+              className="pagination-btn"
+              disabled={currentPage === 1}
+              onClick={() =>
+                setCurrentPage(
+                  currentPage - 1
+                )
+              }
+            >
+              Previous
+            </button>
+
+            {/* Page Numbers */}
+            {[...Array(totalPages)].map(
+              (_, index) => (
+                <button
+                  key={index}
+                  className={`pagination-number ${
+                    currentPage ===
+                    index + 1
+                      ? "active-page"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setCurrentPage(
+                      index + 1
+                    )
+                  }
+                >
+                  {index + 1}
+                </button>
+              )
+            )}
+
+            {/* Next */}
+            <button
+              className="pagination-btn"
+              disabled={
+                currentPage === totalPages
+              }
+              onClick={() =>
+                setCurrentPage(
+                  currentPage + 1
+                )
+              }
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Edit Modal */}
@@ -224,14 +327,19 @@ const Users = () => {
         <div
           className="modal d-block"
           style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
+            backgroundColor:
+              "rgba(0,0,0,0.5)",
           }}
-          onClick={() => setShowModal(false)}
+          onClick={() =>
+            setShowModal(false)
+          }
         >
           <div className="modal-dialog">
             <div
               className="modal-content"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               <div className="modal-header">
                 <h5 className="modal-title">
@@ -240,18 +348,24 @@ const Users = () => {
 
                 <button
                   className="btn-close"
-                  onClick={() => setShowModal(false)}
+                  onClick={() =>
+                    setShowModal(false)
+                  }
                 ></button>
               </div>
 
               <div className="modal-body">
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={handleSubmit}
+                >
                   <input
                     className="form-control mb-3"
                     placeholder="Username"
                     value={username}
                     onChange={(e) =>
-                      setUsername(e.target.value)
+                      setUsername(
+                        e.target.value
+                      )
                     }
                   />
 
@@ -261,7 +375,9 @@ const Users = () => {
                     placeholder="Email"
                     value={email}
                     onChange={(e) =>
-                      setEmail(e.target.value)
+                      setEmail(
+                        e.target.value
+                      )
                     }
                   />
 
@@ -271,7 +387,9 @@ const Users = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) =>
-                      setPassword(e.target.value)
+                      setPassword(
+                        e.target.value
+                      )
                     }
                   />
 
@@ -290,7 +408,8 @@ const Users = () => {
         <div
           className="modal d-block"
           style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
+            backgroundColor:
+              "rgba(0,0,0,0.5)",
           }}
         >
           <div className="modal-dialog modal-sm">
@@ -303,15 +422,17 @@ const Users = () => {
 
               <div className="modal-body">
                 <p>
-                  Are you sure you want to delete
-                  this user?
+                  Are you sure you want to
+                  delete this user?
                 </p>
 
                 <div className="d-flex justify-content-end">
                   <button
                     className="btn btn-secondary me-2"
                     onClick={() =>
-                      setShowDeleteModal(false)
+                      setShowDeleteModal(
+                        false
+                      )
                     }
                   >
                     Cancel
