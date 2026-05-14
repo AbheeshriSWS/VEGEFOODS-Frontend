@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 const API_URL = "https://fakestoreapi.com/products";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  
 
   const [showModal, setShowModal] =
     useState(false);
@@ -24,10 +24,24 @@ const Products = () => {
     useState("");
   const [image, setImage] = useState("");
 
+  const [loading, setLoading] =
+  useState(false);
+
+  // Pagination States
+const [currentPage, setCurrentPage] =
+  useState(1);
+
+const itemsPerPage = 5;
+const [products, setProducts] = useState([]);
+
+
   // =========================
   // GET PRODUCTS
   // =========================
   const fetchProducts = async () => {
+
+      setLoading(true);
+
     try {
       const response = await fetch(API_URL);
 
@@ -44,6 +58,24 @@ const Products = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // =========================
+// PAGINATION LOGIC
+// =========================
+
+const totalPages = Math.ceil(
+  products.length / itemsPerPage
+);
+
+const startIndex =
+  (currentPage - 1) * itemsPerPage;
+
+const endIndex =
+  startIndex + itemsPerPage;
+
+const currentProducts =
+  products.slice(startIndex, endIndex);
+
 
   // =========================
   // OPEN ADD MODAL
@@ -223,14 +255,19 @@ const Products = () => {
 
     // RESET IDS
     const updatedProducts =
-      filteredProducts.map(
-        (product, index) => ({
-          ...product,
-          id: index + 1,
-        })
-      );
+  filteredProducts;
 
-    // UPDATE STATE
+   
+
+    // Fix page after delete
+if (
+  currentProducts.length === 1 &&
+  currentPage > 1
+) {
+  setCurrentPage(currentPage - 1);
+}
+
+ // UPDATE STATE
     setProducts(updatedProducts);
 
     // SAVE LOCAL STORAGE
@@ -289,7 +326,7 @@ const Products = () => {
           </thead>
 
           <tbody>
-            {products.map((product) => (
+            {currentProducts.map((product) => (
               <tr key={product.id}>
                 <td>{product.id}</td>
 
@@ -344,6 +381,71 @@ const Products = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Pagination */}
+<div className="d-flex justify-content-between align-items-center mt-3">
+
+  {/* Left Side */}
+  <div>
+    Showing {startIndex + 1} to{" "}
+    {Math.min(
+      endIndex,
+      products.length
+    )}{" "}
+    of {products.length} entries
+  </div>
+
+  {/* Right Side */}
+  <div className="pagination-container">
+
+    {/* Previous */}
+    <button
+      className="pagination-btn"
+      disabled={currentPage === 1}
+      onClick={() =>
+        setCurrentPage(
+          currentPage - 1
+        )
+      }
+    >
+      Previous
+    </button>
+
+    {/* Page Numbers */}
+    {[...Array(totalPages)].map(
+      (_, index) => (
+        <button
+          key={index}
+          className={`pagination-number ${
+            currentPage === index + 1
+              ? "active-page"
+              : ""
+          }`}
+          onClick={() =>
+            setCurrentPage(index + 1)
+          }
+        >
+          {index + 1}
+        </button>
+      )
+    )}
+
+    {/* Next */}
+    <button
+      className="pagination-btn"
+      disabled={
+        currentPage === totalPages
+      }
+      onClick={() =>
+        setCurrentPage(
+          currentPage + 1
+        )
+      }
+    >
+      Next
+    </button>
+  </div>
+</div>
       </div>
 
       {/* ADD / EDIT MODAL */}
