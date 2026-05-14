@@ -204,31 +204,54 @@ const Products = () => {
   // DELETE PRODUCT
   // =========================
   const confirmDelete = async () => {
-    try {
-      await fetch(
-        `${API_URL}/${editingProduct.id}`,
-        {
-          method: "DELETE",
-        }
+  try {
+
+    // DELETE API
+    await fetch(
+      `${API_URL}/${editingProduct.id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    // REMOVE PRODUCT
+    const filteredProducts =
+      products.filter(
+        (p) =>
+          p.id !== editingProduct.id
       );
 
-      const filteredProducts =
-        products.filter(
-          (p) =>
-            p.id !== editingProduct.id
-        );
-
-      setProducts(filteredProducts);
-
-      toast.success(
-        "Product deleted successfully"
+    // RESET IDS
+    const updatedProducts =
+      filteredProducts.map(
+        (product, index) => ({
+          ...product,
+          id: index + 1,
+        })
       );
 
-      setShowDeleteModal(false);
-    } catch (error) {
-      toast.error("Delete failed");
-    }
-  };
+    // UPDATE STATE
+    setProducts(updatedProducts);
+
+    // SAVE LOCAL STORAGE
+    localStorage.setItem(
+      "products",
+      JSON.stringify(updatedProducts)
+    );
+
+    toast.success(
+      "Product deleted successfully"
+    );
+
+    setShowDeleteModal(false);
+
+  } catch (error) {
+
+    console.log(error);
+
+    toast.error("Delete failed");
+  }
+};
 
   return (
     <div>

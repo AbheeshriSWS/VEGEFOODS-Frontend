@@ -114,28 +114,48 @@ const Users = () => {
 
   // ================= DELETE USER =================
   const confirmDelete = async () => {
-    try {
-      await fetch(
-        `https://fakestoreapi.com/users/${editingUser.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+  try {
+    await fetch(
+      `https://fakestoreapi.com/users/${editingUser.id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-      const filteredUsers = users.filter(
-        (u) => u.id !== editingUser.id
-      );
+    // REMOVE USER
+    const filteredUsers = users.filter(
+      (u) => u.id !== editingUser.id
+    );
 
-      setUsers(filteredUsers);
+    // RESET IDS
+    const updatedUsers = filteredUsers.map(
+      (user, index) => ({
+        ...user,
+        id: index + 1,
+      })
+    );
 
-      toast.success("User deleted successfully");
+    // UPDATE STATE
+    setUsers(updatedUsers);
 
-      setShowDeleteModal(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Delete failed");
-    }
-  };
+    // SAVE LOCAL STORAGE
+    localStorage.setItem(
+      "users",
+      JSON.stringify(updatedUsers)
+    );
+
+    toast.success(
+      "User deleted successfully"
+    );
+
+    setShowDeleteModal(false);
+
+  } catch (error) {
+    console.log(error);
+
+    toast.error("Delete failed");
+  }
+};
 
   return (
     <div>
