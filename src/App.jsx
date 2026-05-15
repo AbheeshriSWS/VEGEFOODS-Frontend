@@ -25,9 +25,9 @@ function App() {
             <Route path="/about" element={<About />} ></Route>
             <Route path="/shop" element={<Shop />} ></Route>
             <Route path="/wishlist" element={<Wish />} ></Route>
-            <Route path="/product-single" element={<Single />} ></Route>
+            <Route path="/product/:id" element={<Single />} ></Route>
             <Route path="/blog" element={<Blog />} ></Route>
-            <Route path="/blog-single" element={<BlogSingle />} ></Route>
+            <Route path="/blog-single/:id" element={<BlogSingle />} ></Route>
             <Route path="/contact" element={<Contact />} ></Route>
             <Route path="/cart" element={<Cart />} ></Route>
             <Route path="/checkout" element={<Checkout />} ></Route>

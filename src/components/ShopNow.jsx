@@ -1,8 +1,17 @@
-import category from "../assets/images/product.jpeg";
-import{ Link } from "react-router-dom"
- 
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ShopNow() {
+
+	const [products, setProducts] = useState([]);
+
+useEffect(() => {
+  axios
+    .get("https://fakestoreapi.com/products")
+    .then((res) => setProducts(res.data))
+    .catch((err) => console.log(err));
+}, []);
+
 	return (
 		<>
 			<section className="ftco-section">
@@ -57,49 +66,127 @@ function ShopNow() {
 			</section>
 
 			<section className="ftco-section ftco-category ftco-no-pt">
-				<div className="container">
-					<div className="row">
-						<div className="col-md-8">
-							<div className="row">
-								<div className="col-md-6 order-md-last align-items-stretch d-flex">
-									<div className="category-wrap-2 ftco-animate img align-self-stretch d-flex" style={{ backgroundImage: `url(${category})` }}>
-										<div className="text text-center">
-											<h2>Vegetables</h2>
-											<p>Protect the health of every home</p>
-											<p><Link to="/shop" className="btn btn-primary">Shop now</Link></p>
-										</div>
-									</div>
-								</div>
-								<div className="col-md-6">
-									<div className="category-wrap" style={{ backgroundImage: `url(${category})` }}>
-										<div className="text px-3 py-1">
-											<h2 className="mb-0"><a href="javascript:void(0)">Fruits</a></h2>
-										</div>
-									</div>
-									<div className="category-wrap" style={{ backgroundImage: `url(${category})` }}>
-										<div className="text px-3 py-1">
-											<h2 className="mb-0"><a href="javascript:void(0)">Vegetables</a></h2>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+  <div className="container">
+    <div className="row">
 
-						<div className="col-md-4">
-							<div className="category-wrap" style={{ backgroundImage: `url(${category})` }}>
-								<div className="text px-3 py-1">
-									<h2 className="mb-0"><a href="javascript:void(0)">Juices</a></h2>
-								</div>
-							</div>
-							<div className="category-wrap" style={{ backgroundImage: `url(${category})` }}>
-								<div className="text px-3 py-1">
-									<h2 className="mb-0"><a href="javascript:void(0)">Dried</a></h2>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+      {/* LEFT SIDE BIG AREA */}
+      <div className="col-md-8">
+        <div className="row">
+
+          {/* PRODUCT 1 (BIG CARD) */}
+          <div className="col-md-6 order-md-last align-items-stretch d-flex">
+            {products[0] && (
+              <div
+                className="category-wrap-2 ftco-animate img align-self-stretch d-flex"
+                style={{
+                  backgroundImage: `url(${products[0].image})`,
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundColor: "#f8f8f8"
+                }}
+              >
+                <div className="text text-center">
+                  <h2>{products[0].category}</h2>
+                  <p>{products[0].title.slice(0, 45)}</p>
+                  <p>
+                    <a href="javascript:void(0)" className="btn shop-btn">
+                      Shop now
+                    </a>
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT OF BIG CARD */}
+          <div className="col-md-6">
+
+            {/* PRODUCT 2 */}
+            {products[1] && (
+              <div
+                className="category-wrap"
+                style={{
+                  backgroundImage: `url(${products[1].image})`,
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundColor: "#f8f8f8"
+                }}
+              >
+                <div className="text px-3 py-1">
+                  <h2 className="mb-0">{products[1].category}</h2>
+                </div>
+              </div>
+            )}
+
+            {/* PRODUCT 3 */}
+            {products[2] && (
+              <div
+                className="category-wrap"
+                style={{
+                  backgroundImage: `url(${products[2].image})`,
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundColor: "#f8f8f8"
+                }}
+              >
+                <div className="text px-3 py-1">
+                  <h2 className="mb-0">{products[2].category}</h2>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+        </div>
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="col-md-4">
+
+        {/* PRODUCT 4 */}
+        {products[3] && (
+          <div
+            className="category-wrap"
+            style={{
+              backgroundImage: `url(${products[3].image})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundColor: "#f8f8f8"
+            }}
+          >
+            <div className="text px-3 py-1">
+              <h2 className="mb-0">{products[3].category}</h2>
+            </div>
+          </div>
+        )}
+
+        {/* PRODUCT 5 */}
+        {products[4] && (
+          <div
+            className="category-wrap"
+            style={{
+              backgroundImage: `url(${products[4].image})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundColor: "#f8f8f8"
+            }}
+          >
+            <div className="text px-3 py-1">
+              <h2 className="mb-0">{products[4].category}</h2>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+    </div>
+  </div>
+</section>
 		</>
 	);
 }

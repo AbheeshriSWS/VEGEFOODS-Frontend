@@ -1,137 +1,194 @@
-import product from "../assets/images/product.jpeg";
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext.jsx";
 
 function CartMain() {
-	return (
-		<>
-			<section className="ftco-section ftco-cart">
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12 ftco-animate">
-							<div className="cart-list">
-								<table className="table">
-									<thead className="thead-primary">
-										<tr className="text-center">
-											<th>&nbsp;</th>
-											<th>&nbsp;</th>
-											<th>Product name</th>
-											<th>Price</th>
-											<th>Quantity</th>
-											<th>Total</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="text-center">
-											<td className="product-remove"><a href="javascript:void(0)"><span className="ion-ios-close"></span></a></td>
 
-											<td className="image-prod"><div className="img" style={{ backgroundImage: `url(${product})` }}></div></td>
+const { cartItems, removeFromCart } = useContext(CartContext);
 
-											<td className="product-name">
-												<h3>Bell Pepper</h3>
-												<p>Far far away, behind the word mountains, far from the countries</p>
-											</td>
+  const [ setCartItems] = useState([]);
 
-											<td className="price">$4.90</td>
+  const [discount] = useState(3);
+  const [delivery] = useState(0);
 
-											<td className="quantity">
-												<div className="input-group mb-3">
-													<input type="text" name="quantity" className="quantity form-control input-number" defaultValue="1" min="1" max="100" />
-												</div>
-											</td>
+  // ================= FETCH DATA =================
+  useEffect(() => {
+    axios
+      .get("https://fakestoreapi.com/products?limit=5")
+      .then((res) => {
+        const data = res.data.map((item) => ({
+          ...item,
+          quantity: 1,
+        }));
+        setCartItems(data);
+      })
+      .catch((err) => {
+        console.log("API Error:", err);
+        setCartItems([]);
+      });
+  }, []);
 
-											<td className="total">$4.90</td>
-										</tr>
+  // ================= QUANTITY UPDATE =================
+  const updateQuantity = (id, value) => {
+    const qty = Number(value);
 
-										<tr className="text-center">
-											<td className="product-remove"><a href="javascript:void(0)"><span className="ion-ios-close"></span></a></td>
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: qty > 0 ? qty : 1 }
+          : item
+      )
+    );
+  };
 
-											<td className="image-prod"><div className="img" style={{ backgroundImage: `url(${product})` }}></div></td>
+  // ================= REMOVE ITEM =================
+  const removeItem = (id) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
 
-											<td className="product-name">
-												<h3>Bell Pepper</h3>
-												<p>Far far away, behind the word mountains, far from the countries</p>
-											</td>
+  // ================= TOTAL CALCULATION =================
+  const subtotal = cartItems.reduce((acc, item) => {
+    const price = item.price || 0;
+    const qty = item.quantity || 1;
+    return acc + price * qty;
+  }, 0);
 
-											<td className="price">$15.70</td>
+  const total = subtotal + delivery - discount;
 
-											<td className="quantity">
-												<div className="input-group mb-3">
-													<input type="text" name="quantity" className="quantity form-control input-number" defaultValue="1" min="1" max="100" />
-												</div>
-											</td>
+  return (
+    <section className="ftco-section ftco-cart">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12 ftco-animate">
+            <div className="cart-list">
+              <table className="table">
+                <thead className="thead-primary">
+                  <tr className="text-center">
+                    <th></th>
+                    <th></th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
 
-											<td className="total">$15.70</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div className="row justify-content-end">
-						<div className="col-lg-4 mt-5 cart-wrap ftco-animate">
-							<div className="cart-total mb-3">
-								<h3>Coupon Code</h3>
-								<p>Enter your coupon code if you have one</p>
-								<form action="javascript:void(0)" className="info">
-									<div className="form-group">
-										<label htmlFor="">Coupon code</label>
-										<input type="text" className="form-control text-left px-3" placeholder="" />
-									</div>
-								</form>
-							</div>
-							<p><a href="javascript:void(0)" className="btn btn-primary py-3 px-4">Apply Coupon</a></p>
-						</div>
-						<div className="col-lg-4 mt-5 cart-wrap ftco-animate">
-							<div className="cart-total mb-3">
-								<h3>Estimate shipping and tax</h3>
-								<p>Enter your destination to get a shipping estimate</p>
-								<form action="javascript:void(0)" className="info">
-									<div className="form-group">
-										<label htmlFor="">Country</label>
-										<input type="text" className="form-control text-left px-3" placeholder="" />
-									</div>
-									<div className="form-group">
-										<label htmlFor="country">State/Province</label>
-										<input type="text" className="form-control text-left px-3" placeholder="" />
-									</div>
-									<div className="form-group">
-										<label htmlFor="country">Zip/Postal Code</label>
-										<input type="text" className="form-control text-left px-3" placeholder="" />
-									</div>
-								</form>
-							</div>
-							<p><a href="javascript:void(0)" className="btn btn-primary py-3 px-4">Estimate</a></p>
-						</div>
-						<div className="col-lg-4 mt-5 cart-wrap ftco-animate">
-							<div className="cart-total mb-3">
-								<h3>Cart Totals</h3>
-								<p className="d-flex">
-									<span>Subtotal</span>
-									<span>$20.60</span>
-								</p>
-								<p className="d-flex">
-									<span>Delivery</span>
-									<span>$0.00</span>
-								</p>
-								<p className="d-flex">
-									<span>Discount</span>
-									<span>$3.00</span>
-								</p>
-								<hr />
-								<p className="d-flex total-price">
-									<span>Total</span>
-									<span>$17.60</span>
-								</p>
-							</div>
-							<p><Link to="/checkout" className="btn btn-primary py-3 px-4">Proceed to Checkout</Link></p>
-						</div>
-					</div>
-				</div>
-			</section>
+                <tbody>
+                  {cartItems.length === 0 && (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
+                        Cart is empty
+                      </td>
+                    </tr>
+                  )}
 
+                  {cartItems.map(item => (
+                    <tr key={item.id} className="text-center">
+                      <td>
+                        <button onClick={() => removeFromCart(item.id)}>X</button>
+                      </td>
+                      <td>
+                        <div style={{
+                          backgroundImage: `url(${item.image})`,
+                          width: "80px", height: "80px", backgroundSize: "contain"
+                        }} />
+                      </td>
+                      <td>{item.title}</td>
+                      <td>${item.price}</td>
+                      <td>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          min="1"
+                          onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+                        />
+                      </td>
+                      <td>${(item.price * item.quantity).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-		</>
-	);
+        {/* ================= SUMMARY SECTION ================= */}
+        <div className="row justify-content-end">
+
+          {/* COUPON */}
+          <div className="col-lg-4 mt-5 cart-wrap ftco-animate">
+            <div className="cart-total mb-3">
+              <h3>Coupon Code</h3>
+              <p>Enter coupon if you have one</p>
+              <input type="text" className="form-control" />
+            </div>
+            <p>
+              <a href="#" className="btn btn-primary py-3 px-4">
+                Apply Coupon
+              </a>
+            </p>
+          </div>
+
+          {/* SHIPPING */}
+          <div className="col-lg-4 mt-5 cart-wrap ftco-animate">
+            <div className="cart-total mb-3">
+              <h3>Shipping</h3>
+              <p>Estimate shipping cost</p>
+
+              <input className="form-control mb-2" placeholder="Country" />
+              <input className="form-control mb-2" placeholder="State" />
+              <input className="form-control" placeholder="Zip Code" />
+            </div>
+
+            <p>
+              <a href="#" className="btn btn-primary py-3 px-4">
+                Estimate
+              </a>
+            </p>
+          </div>
+
+          {/* TOTAL */}
+          <div className="col-lg-4 mt-5 cart-wrap ftco-animate">
+            <div className="cart-total mb-3">
+              <h3>Cart Totals</h3>
+
+              <p className="d-flex justify-content-between">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </p>
+
+              <p className="d-flex justify-content-between">
+                <span>Delivery</span>
+                <span>${delivery.toFixed(2)}</span>
+              </p>
+
+              <p className="d-flex justify-content-between">
+                <span>Discount</span>
+                <span>${discount.toFixed(2)}</span>
+              </p>
+
+              <hr />
+
+              <p className="d-flex justify-content-between font-weight-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </p>
+            </div>
+
+            <p>
+              <Link to="/checkout" className="btn btn-primary py-3 px-4">
+                Proceed to Checkout
+              </Link>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default CartMain;

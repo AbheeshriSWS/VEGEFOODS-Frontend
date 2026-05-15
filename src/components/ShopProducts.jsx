@@ -1,160 +1,241 @@
-import product from "../assets/images/product.jpeg";
-import { useState } from "react";
-import { Link } from "react-router-dom"
-
-const products = [
-  { id: 1, name: "Bell Pepper", category: "Vegetables", image: product, discount: "30%" },
-  { id: 2, name: "Strawberry", category: "Fruits", image: product },
-  { id: 3, name: "Green Beans", category: "Vegetables", image: product },
-  { id: 4, name: "Purple Cabbage", category: "Vegetables", image: product },
-  { id: 5, name: "Tomato", category: "Vegetables", image: product, discount: "30%" },
-  { id: 6, name: "Broccoli", category: "Vegetables", image: product },
-  { id: 7, name: "Carrots", category: "Vegetables", image: product },
-  { id: 8, name: "Fruit Juice", category: "Juice", image: product },
-  { id: 9, name: "Onion", category: "Dried", image: product, discount: "30%" },
-  { id: 10, name: "Apple", category: "Fruits", image: product },
-  { id: 11, name: "Garlic", category: "Dried", image: product },
-  { id: 12, name: "Chilli", category: "Vegetables", image: product }
-];
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function ShopProducts() {
+
   const [activeTab, setActiveTab] = useState("All");
 
+  const [products, setProducts] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const fetchProducts = async () => {
+
+      try {
+
+        const response = await fetch(
+          "https://fakestoreapi.com/products"
+        );
+
+        const data = await response.json();
+
+        const transformedProducts = data.map((item) => ({
+          id: item.id,
+          name: item.title,
+          category: item.category,
+          image: item.image,
+          price: item.price,
+        }));
+
+        setProducts(transformedProducts);
+
+        setLoading(false);
+
+      } catch (error) {
+
+        console.error(
+          "Error fetching products:",
+          error
+        );
+
+        setLoading(false);
+
+      }
+    };
+
+    fetchProducts();
+
+  }, []);
+
+  // FILTER PRODUCTS
   const filteredProducts =
     activeTab === "All"
       ? products
-      : products.filter((item) => item.category === activeTab);
+      : products.filter(
+          (item) => item.category === activeTab
+        );
+
+  // LOADING
+  if (loading) {
+    return (
+      <p className="text-center">
+        Loading products...
+      </p>
+    );
+  }
 
   return (
     <>
-      {/* ================= TABS ================= */}
+
+      {/* PRODUCTS */}
+
       <section className="ftco-section">
+
         <div className="container">
 
+          {/* CATEGORY FILTERS */}
+
           <div className="row justify-content-center">
+
             <div className="col-md-10 mb-5 text-center">
+
               <ul className="product-category">
 
-                <li>
-                  <a
-                    href="javascript:void(0)"
-                    className={activeTab === "All" ? "active" : ""}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveTab("All");
-                    }}
-                  >
-                    All
-                  </a>
-                </li>
+                {[
+                  "All",
+                  "men's clothing",
+                  "women's clothing",
+                  "electronics",
+                  "jewelery",
+                ].map((cat) => (
 
-                <li>
-                  <a
-                    href="javascript:void(0)"
-                    className={activeTab === "Vegetables" ? "active" : ""}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveTab("Vegetables");
-                    }}
-                  >
-                    Vegetables
-                  </a>
-                </li>
+                  <li key={cat}>
 
-                <li>
-                  <a
-                    href="javascript:void(0)"
-                    className={activeTab === "Fruits" ? "active" : ""}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveTab("Fruits");
-                    }}
-                  >
-                    Fruits
-                  </a>
-                </li>
+                    <a
+                      href="#"
+                      className={
+                        activeTab === cat
+                          ? "active"
+                          : ""
+                      }
+                      onClick={(e) => {
 
-                <li>
-                  <a
-                    href="javascript:void(0)"
-                    className={activeTab === "Juice" ? "active" : ""}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveTab("Juice");
-                    }}
-                  >
-                    Juice
-                  </a>
-                </li>
+                        e.preventDefault();
 
-                <li>
-                  <a
-                    href="javascript:void(0)"
-                    className={activeTab === "Dried" ? "active" : ""}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveTab("Dried");
-                    }}
-                  >
-                    Dried
-                  </a>
-                </li>
+                        setActiveTab(cat);
+
+                      }}
+                    >
+                      {cat}
+                    </a>
+
+                  </li>
+
+                ))}
 
               </ul>
+
             </div>
+
           </div>
 
-          {/* ================= PRODUCTS ================= */}
+          {/* PRODUCT CARDS */}
+
           <div className="row">
+
             {filteredProducts.map((item) => (
-              <div className="col-md-6 col-lg-3 ftco-animate" key={item.id}>
+
+              <div
+                className="col-md-6 col-lg-3 ftco-animate mb-4"
+                key={item.id}
+              >
+
                 <div className="product">
 
-                  <Link to="/product-single" className="img-prod">
-                    <img className="img-fluid" src={item.image} alt={item.name} />
+                  {/* IMAGE */}
 
-                    {item.discount && (
-                      <span className="status">{item.discount}</span>
-                    )}
+                  <Link
+                    to={`/product/${item.id}`}
+                    className="img-prod"
+                  >
+
+                    <img
+                      className="img-fluid"
+                      src={item.image}
+                      alt={item.name}
+                      style={{
+                        height: "250px",
+                        objectFit: "contain",
+                      }}
+                    />
 
                     <div className="overlay"></div>
+
                   </Link>
 
-                  <div className="text py-3 pb-4 px-3 text-center">
-                    <h3>{item.name}</h3>
+                  {/* TEXT */}
 
-                    <div className="d-flex">
+                  <div className="text py-3 pb-4 px-3 text-center">
+
+                    <h3
+                      style={{
+                        height: "50px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.name}
+                    </h3>
+
+                    <div className="d-flex justify-content-center">
+
                       <div className="pricing">
+
                         <p className="price">
-                          <span>$120.00</span>
+
+                          <span>
+                            ${item.price.toFixed(2)}
+                          </span>
+
                         </p>
+
                       </div>
+
                     </div>
 
+                    {/* BUTTONS */}
+
                     <div className="bottom-area d-flex px-3">
+
                       <div className="m-auto d-flex">
-                        <Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-                          <span><i className="ion-ios-menu"></i></span>
+
+                        <Link
+                          to={`/product/${item.id}`}
+                          className="add-to-cart d-flex justify-content-center align-items-center text-center"
+                        >
+                          <span>
+                            <i className="ion-ios-menu"></i>
+                          </span>
                         </Link>
-                        <Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-                          <span><i className="ion-ios-cart"></i></span>
+
+                        <Link
+                          to="/cart"
+                          className="buy-now d-flex justify-content-center align-items-center mx-1"
+                        >
+                          <span>
+                            <i className="ion-ios-cart"></i>
+                          </span>
                         </Link>
-                        <Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-                          <span><i className="ion-ios-heart"></i></span>
+
+                        <Link
+                          to="/wishlist"
+                          className="heart d-flex justify-content-center align-items-center"
+                        >
+                          <span>
+                            <i className="ion-ios-heart"></i>
+                          </span>
                         </Link>
+
                       </div>
+
                     </div>
 
                   </div>
+
                 </div>
+
               </div>
+
             ))}
+
           </div>
 
         </div>
+
       </section>
 
-      
     </>
   );
 }

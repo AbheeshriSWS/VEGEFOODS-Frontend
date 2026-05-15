@@ -14620,3 +14620,42 @@ body {
   /* color: darkred; */
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+
+.product {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product .text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.img-prod img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.product h3 {
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-btn:focus, .shop-btn:active {
+    background-color: #82ae46;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: #82ae46;
+    border: 1px solid #82ae46;
+    color: #fff;
+}
+
+.shop-btn{
+  background-color: #82ae46 !important;
+}

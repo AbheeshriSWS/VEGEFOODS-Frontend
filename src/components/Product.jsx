@@ -1,255 +1,269 @@
-import product from "../assets/images/product.jpeg";
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Product() {
-	return (
-		<>
-			<section className="ftco-section">
-				<div className="container">
-					<div className="row justify-content-center mb-3 pb-3">
-						<div className="col-md-12 heading-section text-center ftco-animate">
-							<span className="subheading">Featured Products</span>
-							<h2 className="mb-4">Our Products</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-						</div>
-					</div>
-				</div>
-				<div className="container">
-					<div className="row">
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascrip:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<span className="status">30%</span>
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Bell Pepper</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span className="mr-2 price-dc">$120.00</span><span className="price-sale">$80.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Strawberry</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Green Beans</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Purple Cabbage</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 
+  const [activeTab, setActiveTab] = useState("All");
 
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<span className="status">30%</span>
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Tomatoe</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span className="mr-2 price-dc">$120.00</span><span className="price-sale">$80.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Brocolli</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascript:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Carrots</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3 ftco-animate">
-							<div className="product">
-								<Link href="javascrip:void(0)" className="img-prod"><img className="img-fluid" src={product} alt="Colorlib Template" />
-									<div className="overlay"></div>
-								</Link>
-								<div className="text py-3 pb-4 px-3 text-center">
-									<h3><Link href="javascript:void(0)">Fruit Juice</Link></h3>
-									<div className="d-flex">
-										<div className="pricing">
-											<p className="price"><span>$120.00</span></p>
-										</div>
-									</div>
-									<div className="bottom-area d-flex px-3">
-										<div className="m-auto d-flex">
-											<Link to="/product-single" className="add-to-cart d-flex justify-content-center align-items-center text-center">
-												<span><i className="ion-ios-menu"></i></span>
-											</Link>
-											<Link to="/cart" className="buy-now d-flex justify-content-center align-items-center mx-1">
-												<span><i className="ion-ios-cart"></i></span>
-											</Link>
-											<Link to="/wishlist" className="heart d-flex justify-content-center align-items-center ">
-												<span><i className="ion-ios-heart"></i></span>
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</>
-	);
+  const [products, setProducts] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const fetchProducts = async () => {
+
+      try {
+
+        const response = await fetch(
+          "https://fakestoreapi.com/products"
+        );
+
+        const data = await response.json();
+
+        const transformedProducts = data.map((item) => ({
+          id: item.id,
+          name: item.title,
+          category: item.category,
+          image: item.image,
+          price: item.price,
+        }));
+
+        setProducts(transformedProducts);
+
+        setLoading(false);
+
+      } catch (error) {
+
+        console.error(
+          "Error fetching products:",
+          error
+        );
+
+        setLoading(false);
+
+      }
+    };
+
+    fetchProducts();
+
+  }, []);
+
+  // FILTER PRODUCTS
+  const filteredProducts =
+    activeTab === "All"
+      ? products
+      : products.filter(
+          (item) => item.category === activeTab
+        );
+
+  // LOADING
+  if (loading) {
+    return (
+      <p className="text-center">
+        Loading products...
+      </p>
+    );
+  }
+
+  return (
+    <>
+
+      {/* HEADING */}
+
+      <div className="container">
+
+        <div className="row justify-content-center">
+
+          <div className="col-md-12 heading-section text-center ftco-animate">
+
+            <span className="subheading">
+              Featured Products
+            </span>
+
+            <h2 className="mb-4">
+              Our Products
+            </h2>
+
+            <p>
+              Browse our latest collection
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* PRODUCTS */}
+
+      <section className="ftco-section">
+
+        <div className="container">
+
+          {/* CATEGORY FILTERS */}
+
+          <div className="row justify-content-center">
+
+            <div className="col-md-10 mb-5 text-center">
+
+              <ul className="product-category">
+
+                {[
+                  "All",
+                  "men's clothing",
+                  "women's clothing",
+                  "electronics",
+                  "jewelery",
+                ].map((cat) => (
+
+                  <li key={cat}>
+
+                    <a
+                      href="#"
+                      className={
+                        activeTab === cat
+                          ? "active"
+                          : ""
+                      }
+                      onClick={(e) => {
+
+                        e.preventDefault();
+
+                        setActiveTab(cat);
+
+                      }}
+                    >
+                      {cat}
+                    </a>
+
+                  </li>
+
+                ))}
+
+              </ul>
+
+            </div>
+
+          </div>
+
+          {/* PRODUCT CARDS */}
+
+          <div className="row">
+
+            {filteredProducts.map((item) => (
+
+              <div
+                className="col-md-6 col-lg-3 ftco-animate mb-4"
+                key={item.id}
+              >
+
+                <div className="product">
+
+                  {/* IMAGE */}
+
+                  <Link
+                    to={`/product/${item.id}`}
+                    className="img-prod"
+                  >
+
+                    <img
+                      className="img-fluid"
+                      src={item.image}
+                      alt={item.name}
+                      style={{
+                        height: "250px",
+                        objectFit: "contain",
+                      }}
+                    />
+
+                    <div className="overlay"></div>
+
+                  </Link>
+
+                  {/* TEXT */}
+
+                  <div className="text py-3 pb-4 px-3 text-center">
+
+                    <h3
+                      style={{
+                        height: "50px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.name}
+                    </h3>
+
+                    <div className="d-flex justify-content-center">
+
+                      <div className="pricing">
+
+                        <p className="price">
+
+                          <span>
+                            ${item.price.toFixed(2)}
+                          </span>
+
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    {/* BUTTONS */}
+
+                    <div className="bottom-area d-flex px-3">
+
+                      <div className="m-auto d-flex">
+
+                        <Link
+                          to={`/product/${item.id}`}
+                          className="add-to-cart d-flex justify-content-center align-items-center text-center"
+                        >
+                          <span>
+                            <i className="ion-ios-menu"></i>
+                          </span>
+                        </Link>
+
+                        <Link
+                          to="/cart"
+                          className="buy-now d-flex justify-content-center align-items-center mx-1"
+                        >
+                          <span>
+                            <i className="ion-ios-cart"></i>
+                          </span>
+                        </Link>
+
+                        <Link
+                          to="/wishlist"
+                          className="heart d-flex justify-content-center align-items-center"
+                        >
+                          <span>
+                            <i className="ion-ios-heart"></i>
+                          </span>
+                        </Link>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </>
+  );
 }
 
 export default Product;
-
