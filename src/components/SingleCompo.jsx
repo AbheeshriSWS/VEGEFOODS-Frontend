@@ -290,9 +290,20 @@ function SingleCompo() {
                 <button
 					className="btn shop-btn align-items-center d-flex justify-content-center py-3 px-5"
 					onClick={() => {
-						addToCart(product, quantity);
-						navigate("/cart"); // go to cart page
-					}}
+
+    const token = localStorage.getItem("token");
+
+    // Agar login nahi hai
+    if (!token) {
+        navigate("/signin");
+        return;
+    }
+
+    // Agar login hai
+    addToCart(product, quantity);
+    navigate("/cart");
+
+}}
 					>
 					Add to Cart
 				</button>
